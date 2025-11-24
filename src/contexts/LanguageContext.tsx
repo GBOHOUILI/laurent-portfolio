@@ -42,7 +42,8 @@ const translations = {
       learning: "Apprentissage Continu",
       learningDesc: "Passionné par l'acquisition de nouvelles compétences",
       flexibility: "Flexibilité",
-      flexibilityDesc: "Capacité d’adaptation rapide aux nouveaux environnements",
+      flexibilityDesc:
+        "Capacité d’adaptation rapide aux nouveaux environnements",
       patience: "Patience & Rigueur",
       patienceDesc: "Approche méthodique pour résoudre les problèmes complexes",
       travel: "Curiosité",
@@ -59,7 +60,7 @@ const translations = {
       viewCode: "Voir le code",
       viewDemo: "Démo live",
       inProgress: "En cours",
-      confidential: "Projet Confidentiel",
+      confidential: "",
     },
     services: {
       title: "Services Freelance",
@@ -133,7 +134,7 @@ const translations = {
       viewCode: "View Code",
       viewDemo: "Live Demo",
       inProgress: "In Progress",
-      confidential: "Confidential Project",
+      confidential: "",
     },
     services: {
       title: "Freelance Services",
@@ -250,15 +251,14 @@ const translations = {
       data: "Ciencia de Datos",
       dataDesc: "Análisis de datos, visualización y modelado predictivo",
       automation: "Automatización",
-      automationDesc: "Scraping, flujos de trabajo con Make/n8n, integraciones API",
+      automationDesc:
+        "Scraping, flujos de trabajo con Make/n8n, integraciones API",
     },
     blog: {
       title: "Blog & Artículos",
       subtitle: "Próximamente - Compartiendo conocimientos y tutoriales",
       coming: "Próximamente",
     },
-
-
   },
 
   de: {
@@ -280,13 +280,14 @@ const translations = {
       cta2: "Kontaktiere mich",
       downloadCV: "Lebenslauf herunterladen",
     },
-    services:{
+    services: {
       title: "Freelance Dienstleistungen",
       subtitle: "Maßgeschneiderte Lösungen für Ihre Anforderungen",
       web: "Webentwicklung",
       webDesc: "Moderne Webanwendungen mit React, Node.js, Laravel",
       ai: "Künstliche Intelligenz",
-      aiDesc: "KI-, ML-, NLP- und RAG-Lösungen zur Automatisierung Ihrer Prozesse",
+      aiDesc:
+        "KI-, ML-, NLP- und RAG-Lösungen zur Automatisierung Ihrer Prozesse",
       data: "Datenwissenschaft",
       dataDesc: "Datenanalyse, Visualisierung und prädiktive Modellierung",
       automation: "Automatisierung",
@@ -297,7 +298,6 @@ const translations = {
       subtitle: "Bald verfügbar - Wissensaustausch und Tutorials",
       coming: "Bald verfügbar",
     },
-
   },
 
   yo: {
@@ -350,7 +350,6 @@ const translations = {
       subtitle: "Ní pípẹ́ - Pín ìmọ̀ àti àwọn ìtọnisọna",
       coming: "Ní pípẹ́",
     },
-
   },
 };
 
@@ -359,7 +358,7 @@ const translations = {
 // ====================
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {

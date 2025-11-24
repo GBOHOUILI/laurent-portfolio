@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion';
-import { Github, ExternalLink, Lock } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { projects } from '@/data/portfolio';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { motion } from "framer-motion";
+import { Github, Lock } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { projects } from "@/data/portfolio";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export const Projects = () => {
   const { language, t } = useLanguage();
@@ -34,26 +34,45 @@ export const Projects = () => {
               whileHover={{ y: -8 }}
               className="glass-strong rounded-xl p-6 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
             >
+              {/* HEADER */}
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-bold">{project.title}</h3>
-                {project.status === 'development' && (
-                  <Badge variant="outline" className="text-xs">
-                    {t.projects.inProgress}
-                  </Badge>
-                )}
+                <div>
+                  <h3 className="text-xl font-bold">{project.title}</h3>
+
+                  {/* Affichage de la company si elle existe */}
+                  {project.company && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {project.company}
+                    </p>
+                  )}
+                </div>
+
+                {/* Badges */}
+                <div className="flex items-center gap-2">
+                  {project.confidential && (
+                    <Badge
+                      variant="outline"
+                      className="flex items-center border p-3 gap-1 text-xl text-red-400"
+                    >
+                      <Lock className="h-5 w-5" />
+                      {t.projects.confidential}
+                    </Badge>
+                  )}
+
+                  {project.status === "development" && (
+                    <Badge variant="outline" className="text-xs">
+                      {t.projects.inProgress}
+                    </Badge>
+                  )}
+                </div>
               </div>
 
+              {/* DESCRIPTION (toujours visible même si confidentiel) */}
               <p className="text-muted-foreground mb-4 min-h-[80px]">
-                {project.confidential ? (
-                  <span className="flex items-center gap-2">
-                    <Lock className="h-4 w-4" />
-                    {t.projects.confidential}
-                  </span>
-                ) : (
-                  project.description[language]
-                )}
+                {project.description[language]}
               </p>
 
+              {/* TAGS */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag) => (
                   <Badge key={tag} variant="secondary" className="text-xs">
@@ -62,6 +81,7 @@ export const Projects = () => {
                 ))}
               </div>
 
+              {/* BUTTONS */}
               {!project.confidential && project.github && (
                 <div className="flex gap-2">
                   <Button
