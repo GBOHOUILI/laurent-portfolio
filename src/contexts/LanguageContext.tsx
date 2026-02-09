@@ -1,92 +1,131 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// Définition des langues supportées
-type Language = "fr" | "en" | "fon" | "es" | "de" | "yo";
+// Types des langues supportées (tu pourras en ajouter)
+type Language = "fr" | "en" | "fon" // | "es" | "de" | "yo";
 
-// Structure du contexte
+// Structure des traductions (ajoute ce dont tu as besoin)
+interface Translations {
+  nav: {
+    home: string;
+    about: string;
+    domaines: string;
+    engagements: string;
+    blog: string;        // ou publications
+    publications?: string;
+    certificats?: string;
+    contact: string;
+  };
+  hero: {
+    greeting: string;
+    title: string;
+    description: string;
+    cta1: string;
+    cta2: string;
+  };
+  about: {
+    title: string;
+    subtitle: string;
+    intro: string;
+    intro2?: string;
+    values: string;
+    solidarity?: string;
+    solidarityDesc?: string;
+    justiceClimatique?: string;
+    justiceClimatiqueDesc?: string;
+    communities?: string;
+    communitiesDesc?: string;
+    equity?: string;
+    equityDesc?: string;
+    global?: string;
+    globalDesc?: string;
+    quote?: string;
+  };
+  domaines?: Record<string, string>; // pour les 3 axes si tu veux les traduire
+  blog?: {
+    title: string;
+    subtitle: string;
+    coming: string;
+  };
+  contact: {
+    title: string;
+    subtitle: string;
+    location: string;
+    name: string;
+    email: string;
+    message: string;
+    send: string;
+  };
+  common?: {
+    soon: string;
+    collaborate: string;
+    [key: string]: string;
+  };
+}
+
+// Contexte
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: typeof translations.fr;
+  t: Translations;
 }
 
-// ====================
-// Traductions complètes
-// ====================
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const translations = {
+// Traductions de base (placeholders / fausses pour tester)
+const translations: Record<Language, Translations> = {
   fr: {
     nav: {
       home: "Accueil",
-      about: "À Propos",
-      skills: "Compétences",
-      projects: "Projets",
-      services: "Services",
-      blog: "Blog",
-      contact: "Contact",
+      about: "À propos",
+      domaines: "Domaines d’action",
+      engagements: "Engagements & luttes",
+      blog: "Blog & veille",
+      publications: "Publications & veille",
+      certificats: "Certificats",
+      contact: "Contact / Collaborer",
     },
     hero: {
-      greeting: "Bonjour, je suis",
-      title: "Développeur Full-Stack & Data Scientist",
-      description:
-        "Passionné par les nouvelles technologies et l'intelligence artificielle, je transforme des idées complexes en solutions innovantes.",
-      cta1: "Voir mes projets",
-      cta2: "Me contacter",
-      downloadCV: "Télécharger CV",
+      greeting: "Engagé pour un monde juste",
+      title: "Activiste – Justice climatique & droits humains",
+      description: "Pour des territoires vivants, des communautés respectées et un numérique qui ne détruit pas la planète.",
+      cta1: "Découvrir mes combats",
+      cta2: "Collaborons",
     },
     about: {
-      title: "À Propos de Moi",
-      intro:
-        "Professionnel polyvalent en Data Science et développement web/mobile, toujours à la recherche de solutions innovantes.",
-      values: "Mes Valeurs",
-      learning: "Apprentissage Continu",
-      learningDesc: "Passionné par l'acquisition de nouvelles compétences",
-      flexibility: "Flexibilité",
-      flexibilityDesc:
-        "Capacité d’adaptation rapide aux nouveaux environnements",
-      patience: "Patience & Rigueur",
-      patienceDesc: "Approche méthodique pour résoudre les problèmes complexes",
-      travel: "Curiosité",
-      travelDesc: "Ouvert au monde et aux nouvelles expériences",
-    },
-    skills: {
-      title: "Compétences Techniques",
-      dataScience: "Data Science & IA",
-      webDev: "Développement Web",
-      tools: "Outils & Autres",
-    },
-    projects: {
-      title: "Projets Réalisés",
-      viewCode: "Voir le code",
-      viewDemo: "Démo live",
-      inProgress: "En cours",
-      confidential: "",
-    },
-    services: {
-      title: "Services Freelance",
-      subtitle: "Solutions sur mesure pour vos besoins",
-      web: "Développement Web",
-      webDesc: "Applications web modernes avec React, Node.js, Laravel",
-      ai: "Intelligence Artificielle",
-      aiDesc: "Solutions IA, ML, NLP et RAG pour automatiser vos processus",
-      data: "Data Science",
-      dataDesc: "Analyse de données, visualisation et modélisation prédictive",
-      automation: "Automatisation",
-      automationDesc: "Scraping, workflows avec Make/n8n, intégrations API",
+      title: "Eldo-Moréo GBOHOUILI",
+      subtitle: "Activiste pour la justice climatique et les droits des communautés vulnérables",
+      intro: "Militant béninois engagé depuis plusieurs années dans la défense des droits humains face aux impacts du changement climatique, de l’extractivisme et des inégalités numériques.",
+      intro2: "À travers le plaidoyer, la sensibilisation, l’accompagnement juridique des communautés et la mobilisation citoyenne, je contribue à construire une transition juste et solidaire.",
+      values: "Valeurs qui guident mon engagement",
+      solidarity: "Solidarité",
+      solidarityDesc: "Être aux côtés des plus touchés par les injustices environnementales et sociales.",
+      justiceClimatique: "Justice climatique",
+      justiceClimatiqueDesc: "Protéger les écosystèmes et défendre les droits des générations futures.",
+      communities: "Défense des communautés",
+      communitiesDesc: "Accompagner les populations vulnérables face aux projets destructeurs.",
+      equity: "Équité & redevabilité",
+      equityDesc: "Plaidoyer pour une gouvernance inclusive et une transition juste.",
+      global: "Vision globale",
+      globalDesc: "Lien entre climat, droits humains et numérique responsable.",
+      quote: "La crise climatique n’est pas une fatalité, c’est une injustice qu’on peut et qu’on doit combattre.",
     },
     blog: {
-      title: "Blog & Articles",
-      subtitle: "Prochainement - Partage de connaissances et tutoriels",
-      coming: "Bientôt disponible",
+      title: "Publications & Veille",
+      subtitle: "Analyses, articles et ressources sur le climat, les droits et le numérique",
+      coming: "Les premiers articles arrivent très bientôt...",
     },
     contact: {
-      title: "Contactez-moi",
-      subtitle: "Discutons de votre prochain projet",
-      location: "Godomey, Abomey-Calavi, Bénin",
-      name: "Nom",
+      title: "Contactez-moi / Collaborez",
+      subtitle: "Pour des partenariats, invitations, médias, soutiens ou échanges",
+      location: "Cotonou / Abomey-Calavi, Bénin",
+      name: "Nom / Organisation",
       email: "Email",
-      message: "Message",
+      message: "Votre message",
       send: "Envoyer",
+    },
+    common: {
+      soon: "Bientôt disponible",
+      collaborate: "Collaborer",
     },
   },
 
@@ -94,296 +133,89 @@ const translations = {
     nav: {
       home: "Home",
       about: "About",
-      skills: "Skills",
-      projects: "Projects",
-      services: "Services",
-      blog: "Blog",
-      contact: "Contact",
+      domaines: "Areas of Action",
+      engagements: "Commitments & Struggles",
+      blog: "Publications & Watch",
+      publications: "Publications & Watch",
+      certificats: "Certificates",
+      contact: "Contact / Collaborate",
     },
     hero: {
-      greeting: "Hi, I'm",
-      title: "Full-Stack Developer & Data Scientist",
-      description:
-        "Passionate about new technologies and artificial intelligence, I transform complex ideas into innovative solutions.",
-      cta1: "View Projects",
-      cta2: "Contact Me",
-      downloadCV: "Download CV",
+      greeting: "Committed to a just world",
+      title: "Activist – Climate Justice & Human Rights",
+      description: "For living territories, respected communities and digital technology that does not destroy the planet.",
+      cta1: "Discover my fights",
+      cta2: "Let's collaborate",
     },
     about: {
-      title: "About Me",
-      intro:
-        "Versatile professional in Data Science and web/mobile development, always seeking innovative solutions.",
-      values: "My Values",
-      learning: "Continuous Learning",
-      learningDesc: "Passionate about acquiring new skills",
-      flexibility: "Flexibility",
-      flexibilityDesc: "Quick adaptation to new environments",
-      patience: "Patience & Rigor",
-      patienceDesc: "Methodical approach to solving complex problems",
-      travel: "Curiosity",
-      travelDesc: "Open to the world and new experiences",
-    },
-    skills: {
-      title: "Technical Skills",
-      dataScience: "Data Science & AI",
-      webDev: "Web Development",
-      tools: "Tools & Others",
-    },
-    projects: {
-      title: "Featured Projects",
-      viewCode: "View Code",
-      viewDemo: "Live Demo",
-      inProgress: "In Progress",
-      confidential: "",
-    },
-    services: {
-      title: "Freelance Services",
-      subtitle: "Custom solutions for your needs",
-      web: "Web Development",
-      webDesc: "Modern web applications with React, Node.js, Laravel",
-      ai: "Artificial Intelligence",
-      aiDesc: "AI, ML, NLP and RAG solutions to automate your processes",
-      data: "Data Science",
-      dataDesc: "Data analysis, visualization and predictive modeling",
-      automation: "Automation",
-      automationDesc: "Scraping, workflows with Make/n8n, API integrations",
+      title: "Eldo-Moréo GBOHOUILI",
+      subtitle: "Activist for climate justice and the rights of vulnerable communities",
+      intro: "Beninese activist engaged for several years in defending human rights against the impacts of climate change, extractivism and digital inequalities.",
+      intro2: "Through advocacy, awareness-raising, legal support for communities and citizen mobilization, I contribute to building a just and solidarity-based transition.",
+      values: "Values guiding my commitment",
+      solidarity: "Solidarity",
+      solidarityDesc: "Standing with those most affected by environmental and social injustices.",
+      justiceClimatique: "Climate Justice",
+      justiceClimatiqueDesc: "Protecting ecosystems and defending the rights of future generations.",
+      communities: "Community Defense",
+      communitiesDesc: "Supporting vulnerable populations against destructive projects.",
+      equity: "Equity & Accountability",
+      equityDesc: "Advocacy for inclusive governance and a just transition.",
+      global: "Global Perspective",
+      globalDesc: "Linking climate, human rights and responsible digital practices.",
+      quote: "The climate crisis is not inevitable, it is an injustice we can and must fight.",
     },
     blog: {
-      title: "Blog & Articles",
-      subtitle: "Coming Soon - Knowledge sharing and tutorials",
-      coming: "Coming Soon",
+      title: "Publications & Insights",
+      subtitle: "Analyses, articles and resources on climate, rights and digital issues",
+      coming: "First articles coming very soon...",
     },
     contact: {
-      title: "Get In Touch",
-      subtitle: "Let's discuss your next project",
-      location: "Godomey, Abomey-Calavi, Benin",
-      name: "Name",
+      title: "Contact me / Collaborate",
+      subtitle: "For partnerships, invitations, media, support or discussions",
+      location: "Cotonou / Abomey-Calavi, Benin",
+      name: "Name / Organization",
       email: "Email",
-      message: "Message",
+      message: "Your message",
       send: "Send",
     },
-  },
-
-  fon: {
-    nav: {
-      home: "Xwédo",
-      about: "Wémè",
-      skills: "Sɔsɔtɔ",
-      projects: "Nɔ̀ Kɔ̀",
-      services: "Dɔ̀dɔ̀",
-      blog: "Blogo",
-      contact: "Wɛ nú",
-    },
-    hero: {
-      greeting: "Mí kɔ́ ɖé, nɔ mí wá",
-      title: "Tɔ̀nkpɔn ní sɔ́sɔtɔ & Data Scientist",
-      description:
-        "Nɔ̀ wá jí tékínolojì àti AI gbé wà, mí kɔ́ wɛ gbédodo sɔ wá hùn nu nɔnso.",
-      cta1: "Wá kɔ̀ mí nɔ̀",
-      cta2: "Wɛ nú mí",
-      downloadCV: "Tó CV",
-    },
-    about: {
-      title: "Wémè mí",
-      intro:
-        "Mí nɔ̀ dɔ́ tɔ́nkpɔn, mí nɔ̀ Data Science àti web-développement gbé jé.",
-      values: "Wémɛ mí",
-      learning: "Kɔ́ nú kpɔ́nsɔ",
-      learningDesc: "Mí sɔ́ gbédodo nú jà sɔ́sɔtɔ",
-      flexibility: "Wèwè",
-      flexibilityDesc: "Mí kɔ́ yí do kplɔ́ nú tékínolojì tò",
-      patience: "Wáyè & Dɔ̀kpɔ̀",
-      patienceDesc: "Mí sɔ́ sɔ́sɔtɔ gbé ɖe hùn nu nɔnso",
-      travel: "Yésisɔ",
-      travelDesc: "Mí gbé kpɔn wémɛ ɖe dɔ̀kpɔ̀",
-    },
-    contact: {
-      title: "Wɛ nú mí",
-      subtitle: "Wá gbé mí nɔn do nɔ̀ ɖo",
-      location: "Godomey, Abomey-Calavi, Benin",
-      name: "Sɔ̀",
-      email: "Email",
-      message: "Nɔ̀nkpɔ̀",
-      send: "Sɔ́",
+    common: {
+      soon: "Coming soon",
+      collaborate: "Collaborate",
     },
   },
 
-  es: {
-    nav: {
-      home: "Inicio",
-      about: "Sobre mí",
-      skills: "Habilidades",
-      projects: "Proyectos",
-      services: "Servicios",
-      blog: "Blog",
-      contact: "Contacto",
-    },
-    hero: {
-      greeting: "Hola, soy",
-      title: "Desarrollador Full-Stack y Científico de Datos",
-      description:
-        "Apasionado por la tecnología y la inteligencia artificial, transformo ideas complejas en soluciones innovadoras.",
-      cta1: "Ver proyectos",
-      cta2: "Contactarme",
-      downloadCV: "Descargar CV",
-    },
-    about: {
-      title: "Sobre mí",
-      intro:
-        "Profesional versátil en Ciencia de Datos y desarrollo web/móvil, siempre en busca de soluciones innovadoras.",
-      values: "Mis Valores",
-      learning: "Aprendizaje Continuo",
-      learningDesc: "Apasionado por adquirir nuevas habilidades",
-      flexibility: "Flexibilidad",
-      flexibilityDesc: "Adaptación rápida a nuevos entornos",
-      patience: "Paciencia y Rigor",
-      patienceDesc: "Enfoque metódico para resolver problemas complejos",
-      travel: "Curiosidad",
-      travelDesc: "Abierto al mundo y a nuevas experiencias",
-    },
-    services: {
-      title: "Servicios Freelance",
-      subtitle: "Soluciones personalizadas para tus necesidades",
-      web: "Desarrollo Web",
-      webDesc: "Aplicaciones web modernas con React, Node.js, Laravel",
-      ai: "Inteligencia Artificial",
-      aiDesc: "Soluciones de IA, ML, NLP y RAG para automatizar tus procesos",
-      data: "Ciencia de Datos",
-      dataDesc: "Análisis de datos, visualización y modelado predictivo",
-      automation: "Automatización",
-      automationDesc:
-        "Scraping, flujos de trabajo con Make/n8n, integraciones API",
-    },
-    blog: {
-      title: "Blog & Artículos",
-      subtitle: "Próximamente - Compartiendo conocimientos y tutoriales",
-      coming: "Próximamente",
-    },
-  },
-
-  de: {
-    nav: {
-      home: "Startseite",
-      about: "Über mich",
-      skills: "Fähigkeiten",
-      projects: "Projekte",
-      services: "Dienstleistungen",
-      blog: "Blog",
-      contact: "Kontakt",
-    },
-    hero: {
-      greeting: "Hallo, ich bin",
-      title: "Full-Stack-Entwickler & Data Scientist",
-      description:
-        "Leidenschaftlich über neue Technologien und KI, verwandle ich komplexe Ideen in innovative Lösungen.",
-      cta1: "Projekte ansehen",
-      cta2: "Kontaktiere mich",
-      downloadCV: "Lebenslauf herunterladen",
-    },
-    services: {
-      title: "Freelance Dienstleistungen",
-      subtitle: "Maßgeschneiderte Lösungen für Ihre Anforderungen",
-      web: "Webentwicklung",
-      webDesc: "Moderne Webanwendungen mit React, Node.js, Laravel",
-      ai: "Künstliche Intelligenz",
-      aiDesc:
-        "KI-, ML-, NLP- und RAG-Lösungen zur Automatisierung Ihrer Prozesse",
-      data: "Datenwissenschaft",
-      dataDesc: "Datenanalyse, Visualisierung und prädiktive Modellierung",
-      automation: "Automatisierung",
-      automationDesc: "Scraping, Workflows mit Make/n8n, API-Integrationen",
-    },
-    blog: {
-      title: "Blog & Artikel",
-      subtitle: "Bald verfügbar - Wissensaustausch und Tutorials",
-      coming: "Bald verfügbar",
-    },
-  },
-
-  yo: {
-    nav: {
-      home: "Ile",
-      about: "Nipa mi",
-      skills: "Ogbón",
-      projects: "Àwọn iṣẹ́",
-      services: "Ìṣẹ́",
-      blog: "Búlóògì",
-      contact: "Kan si mi",
-    },
-    hero: {
-      greeting: "Báwo, orúkọ mi ni",
-      title: "Oníṣẹ́ Full-Stack & Onímọ̀ Data",
-      description:
-        "Mo nífẹ̀ẹ́ sí imọ̀-ẹrọ àti AI, mo ń yí èrò díẹ̀díẹ̀ sí ojútùú tuntun.",
-      cta1: "Wo iṣẹ́ mi",
-      cta2: "Kan sí mi",
-      downloadCV: "Gba CV",
-    },
-    about: {
-      title: "Über mich",
-      intro:
-        "Vielseitiger Profi in Data Science und Web/Mobile-Entwicklung, stets auf der Suche nach innovativen Lösungen.",
-      values: "Meine Werte",
-      learning: "Kontinuierliches Lernen",
-      learningDesc: "Leidenschaft für den Erwerb neuer Fähigkeiten",
-      flexibility: "Flexibilität",
-      flexibilityDesc: "Schnelle Anpassung an neue Umgebungen",
-      patience: "Geduld & Genauigkeit",
-      patienceDesc: "Methodisches Vorgehen zur Lösung komplexer Probleme",
-      travel: "Neugier",
-      travelDesc: "Offen für die Welt und neue Erfahrungen",
-    },
-    services: {
-      title: "Ìṣẹ́ Freelance",
-      subtitle: "Àwọn ojútùú tó yẹ fún ìbéèrè rẹ",
-      web: "Ìdàgbàsókè Wẹẹbù",
-      webDesc: "Àwọn ohun elo wẹẹbù tuntun pẹ̀lú React, Node.js, Laravel",
-      ai: "Ọgbọ́n atọwọdọwọ",
-      aiDesc: "Ọgbọ́n atọwọdọwọ, ML, NLP ati RAG fún ìmúlò iṣẹ́ rẹ",
-      data: "Imọ̀ Data",
-      dataDesc: "Ìtúpalẹ̀ data, àfihàn àti àfojúsùn àlẹmọ",
-      automation: "Ìmúlò àtẹ̀yìnwá",
-      automationDesc: "Scraping, àwọn workflows pẹ̀lú Make/n8n, ìṣọ̀kan API",
-    },
-    blog: {
-      title: "Búlóògì & Àwọn Àkọọlẹ",
-      subtitle: "Ní pípẹ́ - Pín ìmọ̀ àti àwọn ìtọnisọna",
-      coming: "Ní pípẹ́",
-    },
-  },
+  // Décommente et complète quand tu auras les traductions
+  // fon: { ... },
+  // yo: { ... },
 };
 
-// ====================
-// CONTEXTE DE LANGUE
-// ====================
-
-const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined,
-);
-
+// Provider
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>("fr");
 
-  // Fallback automatique sur FR si une clé manque
-  const currentTranslations = {
-    ...translations.fr,
-    ...(translations[language] || {}),
-  };
+  // On merge toujours avec le français comme fallback
+  const base = translations.fr;
+  const current = translations[language] || base;
+
+  // Fonction safe pour accéder aux traductions (évite les undefined)
+  const t = new Proxy(current, {
+    get(target, prop: string) {
+      if (prop in target) return target[prop as keyof Translations];
+      // Fallback intelligent
+      if (prop in base) return base[prop as keyof Translations];
+      return `[${prop.toUpperCase()}]`; // affiche la clé en majuscules si vraiment manquant
+    },
+  }) as Translations;
 
   return (
-    <LanguageContext.Provider
-      value={{
-        language,
-        setLanguage,
-        t: currentTranslations,
-      }}
-    >
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-// Hook personnalisé
+// Hook
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {

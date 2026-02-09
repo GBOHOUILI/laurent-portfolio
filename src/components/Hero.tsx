@@ -1,387 +1,93 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowDown, Download, Github, Mail } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Button } from '@/components/ui/button';
+import React from 'react';
+import { siteConfig } from '../data/siteData';
 
-// Composant d'animation de fond
-const AnimatedBackground = () => {
-  const canvasRef = useRef(null);
+const forestBgImage = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=2000";
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+const Hero: React.FC = () => {
+  return (
+    <section
+      className="relative min-h-[90vh] md:min-h-[100vh] flex items-center justify-center text-white overflow-hidden"
+      style={{
+        backgroundImage: `url(${forestBgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 25%',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Overlay pour lisibilité */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/35 to-black/55" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/10 pointer-events-none" />
 
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let particles = [];
-    let fishes = [];
+      {/* Contenu centré */}
+      <div className="relative z-10 container mx-auto px-6 md:px-12 py-16 md:py-24 flex flex-col items-center justify-center text-center max-w-5xl">
+        {/* Badge thématique centré */}
+        <div className="inline-block px-6 py-3 bg-white/15 backdrop-blur-lg rounded-full mb-8 border border-white/20 shadow-lg">
+          <span className="text-base md:text-lg font-semibold tracking-wide">
+            #JusticeClimatique #ForêtDurable #DroitsHumains
+          </span>
+        </div>
 
-    // Ajuster la taille du canvas
-    const resizeCanvas = () => {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+        {/* Titre principal centré */}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight my-16 md:mx-24 drop-shadow-2xl">
+          La crise climatique n’est pas seulement environnementale.<br className="hidden sm:block" />
+          Elle révèle qui décide, qui subit et qui est protégé.
+        </h1>
 
-    // Classe Particule
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-        this.opacity = Math.random() * 0.5 + 0.2;
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
-      }
-
-      draw() {
-        ctx.fillStyle = `rgba(100, 181, 246, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    // Classe Poisson
-    // class Fish {
-    //   constructor() {
-    //     this.x = Math.random() * canvas.width;
-    //     this.y = Math.random() * canvas.height;
-    //     this.size = Math.random() * 20 + 15;
-    //     this.speedX = Math.random() * 1.5 + 0.5;
-    //     this.speedY = (Math.random() - 0.5) * 0.3;
-    //     this.angle = 0;
-    //     this.tailAngle = 0;
-    //     this.color = `hsl(${Math.random() * 60 + 180}, 70%, 60%)`;
-    //     this.direction = Math.random() > 0.5 ? 1 : -1;
-    //     if (this.direction === -1) {
-    //       this.x = canvas.width;
-    //       this.speedX *= -1;
-    //     }
-    //   }
-
-    //   update() {
-    //     this.x += this.speedX;
-    //     this.y += this.speedY;
-    //     this.tailAngle += 0.15;
-
-    //     // Ondulation légère
-    //     this.y += Math.sin(this.angle) * 0.3;
-    //     this.angle += 0.05;
-
-    //     // Réapparaître de l'autre côté
-    //     if (this.speedX > 0 && this.x > canvas.width + 50) {
-    //       this.x = -50;
-    //       this.y = Math.random() * canvas.height;
-    //     }
-    //     if (this.speedX < 0 && this.x < -50) {
-    //       this.x = canvas.width + 50;
-    //       this.y = Math.random() * canvas.height;
-    //     }
-
-    //     // Limites verticales
-    //     if (this.y > canvas.height - 50) this.speedY = -Math.abs(this.speedY);
-    //     if (this.y < 50) this.speedY = Math.abs(this.speedY);
-    //   }
-
-    //   draw() {
-    //     ctx.save();
-    //     ctx.translate(this.x, this.y);
-        
-    //     // Miroir si le poisson va vers la gauche
-    //     if (this.speedX < 0) {
-    //       ctx.scale(-1, 1);
-    //     }
-
-    //     // Corps du poisson
-    //     ctx.fillStyle = this.color;
-    //     ctx.beginPath();
-    //     ctx.ellipse(0, 0, this.size, this.size * 0.6, 0, 0, Math.PI * 2);
-    //     ctx.fill();
-
-    //     // Queue
-    //     const tailSwing = Math.sin(this.tailAngle) * 10;
-    //     ctx.beginPath();
-    //     ctx.moveTo(-this.size, 0);
-    //     ctx.lineTo(-this.size - 15, -10 + tailSwing);
-    //     ctx.lineTo(-this.size - 15, 10 + tailSwing);
-    //     ctx.closePath();
-    //     ctx.fill();
-
-    //     // Oeil
-    //     ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    //     ctx.beginPath();
-    //     ctx.arc(this.size * 0.5, -this.size * 0.2, this.size * 0.15, 0, Math.PI * 2);
-    //     ctx.fill();
-        
-    //     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-    //     ctx.beginPath();
-    //     ctx.arc(this.size * 0.55, -this.size * 0.2, this.size * 0.08, 0, Math.PI * 2);
-    //     ctx.fill();
-
-    //     // Nageoires
-    //     ctx.fillStyle = this.color;
-    //     ctx.globalAlpha = 0.7;
-    //     ctx.beginPath();
-    //     ctx.ellipse(0, this.size * 0.5, this.size * 0.3, this.size * 0.5, Math.PI / 6, 0, Math.PI * 2);
-    //     ctx.fill();
-
-    //     ctx.restore();
-    //   }
-    // }
-
-    // Initialiser les particules
-    for (let i = 0; i < 80; i++) {
-      particles.push(new Particle());
-    }
-
-    // Initialiser les poissons
-    // for (let i = 0; i < 6; i++) {
-    //   fishes.push(new Fish());
-    // }
-
-    // Fonction d'animation
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Dessiner et mettre à jour les particules
-      particles.forEach(particle => {
-        particle.update();
-        particle.draw();
-      });
-
-      // Dessiner et mettre à jour les poissons
-      fishes.forEach(fish => {
-        fish.update();
-        fish.draw();
-      });
-
-      // Connecter les particules proches
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 100) {
-            ctx.strokeStyle = `rgba(100, 181, 246, ${0.1 * (1 - distance / 100)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
+        {/* Sous-titre centré */}
+        <p className="text-lg sm:text-xl md:text-2xl mb-10 font-semi-bold md:mb-14 text-green-50/90 drop-shadow-lg max-w-3xl">
+          {siteConfig.personal.slogan ||
+            "Protéger les forêts, défendre les droits, construire un avenir juste et résilient face au climat."
           }
-        }
-      }
+        </p>
 
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    // Nettoyage
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.4 }}
-    />
-  );
-};
-
-export const Hero = () => {
-  const { t } = useLanguage();
-  const [typedText, setTypedText] = useState('');
-  const fullText = t.hero.description;
-
-  useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index <= fullText.length) {
-        setTypedText(fullText.substring(0, index));
-        index++;
-      } else {
-        clearInterval(timer);
-      }
-    }, 30);
-
-    return () => clearInterval(timer);
-  }, [fullText]);
-
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background" />
-      
-      {/* Canvas d'animation avec particules et poissons */}
-      <AnimatedBackground />
-      
-      {/* Floating orbs for visual effect */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
-      />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6"
+        {/* Call to Actions centrés */}
+        <div className="flex flex-col sm:flex-row gap-5 md:gap-8 justify-center">
+          <a
+            href="#contact"
+            className="px-9 py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-full transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-lg"
           >
-            <span className="text-lg text-muted-foreground">{t.hero.greeting}</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl md:text-7xl font-bold mb-4"
+            Collaborer ensemble
+          </a>
+          <a
+            href="#engagements"
+            className="px-9 py-4 bg-transparent border-2 border-white hover:bg-white/15 text-white font-bold rounded-full transition-all backdrop-blur-sm text-lg"
           >
-            Eldo-Moréo{' '}
-            <span className="bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
-              GBOHOUILI
-            </span>
-          </motion.h1>
+            Voir mes actions →
+          </a>
+        </div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-2xl md:text-3xl font-semibold text-muted-foreground mb-8"
-          >
-            {t.hero.title}
-          </motion.h2>
+        {/* Social proof + scroll indicator */}
+        <div className="mt-16 text-base opacity-90 font-bold flex flex-col items-center gap-6">
+          <span>Rejoins +100 partenaires et acteurs du changement</span>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-lg md:text-xl text-muted-foreground mb-12 min-h-[60px]"
-          >
-            {typedText}
-            <motion.span
-              animate={{ opacity: [1, 0] }}
-              transition={{ duration: 0.8, repeat: Infinity }}
-              className="inline-block w-0.5 h-6 bg-primary ml-1 align-middle"
-            />
-          </motion.p>
+          {/* Scroll hint discret */}
+          <div className="bg-white/60 mt-12 border-4 border-green-600 p-6 
+                rounded-[40%_60%_55%_45%/60%_40%_60%_40%] 
+                flex flex-col items-center 
+                animate-bounce text-green-600 
+                mt-4 md:mt-12 backdrop-blur-sm">
+            <span className="text-sm uppercase tracking-wider">Scroll</span>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <Button
-              size="lg"
-              onClick={scrollToProjects}
-              className="bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg hover:shadow-primary/50 transition-all duration-300"
+            <svg
+              className="w-7 h-7 mt-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              {t.hero.cta1}
-            </Button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
 
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={scrollToContact}
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-            >
-              <Mail className="mr-2 h-5 w-5" />
-              {t.hero.cta2}
-            </Button>
+          </div>
 
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary/50 hover:border-primary transition-all duration-300"
-              asChild
-            >
-              <a href="#" download>
-                <Download className="mr-2 h-5 w-5" />
-                {t.hero.downloadCV}
-              </a>
-            </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="flex items-center justify-center gap-4 mt-12"
-          >
-            <a
-              href="https://github.com/GBOHOUILI"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full glass hover:bg-primary/10 transition-colors"
-            >
-              <Github className="h-6 w-6" />
-            </a>
-            <a
-              href="mailto:eldogbohouili@egmail.com"
-              className="p-3 rounded-full glass hover:bg-primary/10 transition-colors"
-            >
-              <Mail className="h-6 w-6" />
-            </a>
-          </motion.div>
         </div>
       </div>
-
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-      >
-        <ArrowDown className="h-6 w-6 text-primary" />
-      </motion.div>
     </section>
   );
 };
+
+export default Hero;
