@@ -23,6 +23,7 @@ export interface BlogPost {
   readTime: string;
   category: string;
   image: string;
+  url: string;
 }
 
 export interface Certificate {
@@ -54,7 +55,7 @@ export interface SiteConfig {
     instagram?: string;
     twitter?: string;
     linkedin?: string;
-    mastodon?: string;
+    facebook?: string;
     github?: string;
   };
   blog: {
@@ -65,29 +66,28 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   personal: {
-    name: "Laurent Activiste",
-    title: "Activiste pour la Justice Climatique et les Droits Humains",
+    name: "Laurent NASSARA",
+    title: "Juriste · Défenseur des Droits Humains · Activiste Environnement",
     slogan: "Du local au global, lutter pour un monde équitable et durable",
     quote: "La plus grande menace pour notre planète est la croyance que quelqu'un d'autre la sauvera.",
-    email: "contact@laurent-activiste.org"
+    email: "contact@laurentnassara.org"
   },
   colors: {
-    primary: "#1B5E20", // Vert profond
-    secondary: "#2E7D32", // Vert moyen
-    accent: "#FF9800",   // Orange urgence
-    background: "#F1F8E9", // Vert très clair
+    primary: "#1B5E20",
+    secondary: "#2E7D32",
+    accent: "#E8572A",
+    background: "#F1F8E9",
     text: "#1B1B1B"
   },
   socialLinks: {
-    instagram: "https://instagram.com/laurent.activiste",
-    twitter: "https://twitter.com/laurent_activ",
-    linkedin: "https://linkedin.com/in/laurent-activiste",
-    mastodon: "https://mastodon.social/@laurent",
-    github: "https://github.com/laurent-activiste"
+    instagram: "https://instagram.com/laurentnassara",
+    twitter: "https://x.com/laurentnassara",
+    linkedin: "https://linkedin.com/in/laurentnassara",
+    facebook: "https://facebook.com/laurentnassara",
   },
   blog: {
-    url: "https://blog.laurent-activiste.org",
-    manager: "Vous (je peux vous aider à le configurer si besoin)"
+    url: "https://laurentnassara.wordpress.com",
+    manager: "WordPress"
   }
 };
 
@@ -98,39 +98,39 @@ export const actionAreas: ActionArea[] = [
     description: "Défense des communautés vulnérables face aux changements climatiques, avec une approche centrée sur la justice sociale et l'équité intergénérationnelle.",
     examples: [
       "Accompagnement juridique des réfugiés climatiques",
-      "Plaintes contre des États pour inaction climatique",
-      "Campagnes de sensibilisation sur les liens santé-climat",
-      "Formation des jeunes aux droits environnementaux",
+      "Plaidoyer pour la révision du Code pénal et du Code du numérique",
+      "Formation en web activisme sain avec Amnesty International Bénin",
+      "Participation aux colloques sur la santé sexuelle et reproductive",
       "Plaidoyer pour la reconnaissance du crime d'écocide",
-      "Soutien aux peuples autochtones dans la protection de leurs terres"
+      "Soutien aux communautés lacustres de Ganvié"
     ],
     icon: "👥"
   },
   {
     id: "climate-justice-ecosystems",
     title: "Justice Climatique & Écosystèmes",
-    description: "Protection des écosystèmes et lutte contre les inégalités environnementales, en particulier dans les zones les plus touchées par la pollution et la dégradation.",
+    description: "Protection des écosystèmes aquatiques et lutte contre les inégalités environnementales, en particulier dans les zones lacustres et les quartiers informels du Bénin.",
     examples: [
-      "Restauration de zones humides menacées",
-      "Actions directes non-violentes contre les projets polluants",
-      "Création de jardins communautaires en zones urbaines",
-      "Documentation des impacts des mégaprojets",
+      "Collecte communautaire de jacinthes d'eau à Ganvié",
+      "Sensibilisation aux ODD dans les écoles primaires",
+      "Actions pour la préservation des écosystèmes aquatiques (MJPEA)",
+      "Documentation de l'impact de la pollution sur la santé des jeunes filles",
       "Participation aux COP et sommets climatiques",
-      "Coordination de grèves climatiques étudiantes"
+      "Animation d'ateliers de restitution sur l'environnement"
     ],
     icon: "🌱"
   },
   {
     id: "digital-responsibility",
     title: "Numérique Responsable & Plaidoyer Digital",
-    description: "Utilisation éthique des technologies pour l'activisme, promotion de la sobriété numérique et formation aux outils militants sécurisés.",
+    description: "Utilisation éthique des technologies pour l'activisme, contribution aux projets Wikimedia et formation aux outils militants sécurisés.",
     examples: [
-      "Création de plateformes de pétitions numériques",
-      "Formations à la sécurité numérique pour militants",
-      "Développement d'outils open-source pour le suivi environnemental",
-      "Campagnes de désinvestissement des GAFAM polluants",
-      "Veille sur l'impact environnemental du numérique",
-      "Animation de communautés en ligne engagées"
+      "Contribution aux projets Wikidata et Wikipédia lors de Make Africa 2025",
+      "Formation au web activisme sain et à la cybersécurité",
+      "Enrichissement de Wikipédia en langue Fon",
+      "Sensibilisation aux risques de l'IA et du deepfake",
+      "Stratégie de communication digitale pour Amnesty International Bénin",
+      "Veille sur l'impact environnemental du numérique"
     ],
     icon: "💻"
   }
@@ -139,134 +139,234 @@ export const actionAreas: ActionArea[] = [
 export const campaigns: Campaign[] = [
   {
     id: "campaign-1",
-    title: "Pétition pour la reconnaissance des réfugiés climatiques",
-    year: "2023",
-    description: "Lancement d'une pétition européenne demandant la création d'un statut juridique pour les personnes déplacées pour raisons climatiques.",
-    impact: "125,000 signatures collectées, audition au Parlement européen",
-    tags: ["Droits humains", "Plaidoyer", "International"]
+    title: "Collecte communautaire de jacinthes d'eau – Ganvié",
+    year: "2025",
+    description: "Trois jours d'action collective à Ganvié avec le MJPEA pour collecter des jacinthes d'eau au profit de la coopérative féminine TOGBLE-TOGNON, alliant écologie et entrepreneuriat féminin.",
+    impact: "5 tonnes de jacinthes collectées, 50+ jeunes mobilisés, voies navigables dégagées",
+    tags: ["Écosystèmes", "Entrepreneuriat féminin", "Ganvié"]
   },
   {
     id: "campaign-2",
-    title: "Action Stop Total",
-    year: "2022-2023",
-    description: "Coordination d'actions de désobéissance civile non-violente contre de nouveaux projets d'exploitation pétrolière.",
-    impact: "Mobilisation de 500+ militants, médiatisation nationale",
-    tags: ["Action directe", "Énergie fossile", "Mobilisation"]
+    title: "EPP GÈDÈVIÉ – Ambassadeurs des ODD",
+    year: "2025",
+    description: "Sensibilisation des élèves de l'EPP GÈDÈVIÉ à Ganvié aux Objectifs de Développement Durable, à l'occasion des 10 ans de l'Agenda 2030 de l'ONU.",
+    impact: "Élèves devenus ambassadeurs des ODD, dons de matériel pédagogique",
+    tags: ["ODD", "Éducation", "Jeunesse"]
   },
   {
     id: "campaign-3",
-    title: "Projet Oasis Urbaines",
-    year: "2021-2024",
-    description: "Création de 12 jardins partagés et îlots de fraîcheur dans des quartiers défavorisés pour lutter contre les îlots de chaleur.",
-    impact: "1,200 m² d'espaces verts créés, 500+ participants réguliers",
-    tags: ["Communauté", "Végétalisation", "Justice sociale"]
+    title: "Formation CIWA – Web Activisme Sain",
+    year: "2025",
+    description: "Formation des points focaux du Comité d'Impulsion du Web Activisme d'Amnesty International Bénin à Bohicon, sur l'activisme numérique éthique et la sécurité des données.",
+    impact: "Points focaux formés dans tout le Bénin, 4 outils de plaidoyer vulgarisés",
+    tags: ["Droits humains", "Numérique", "Amnesty"]
   },
   {
     id: "campaign-4",
-    title: "Campagne Clean Digital",
-    year: "2023",
-    description: "Sensibilisation des organisations et individus à l'impact environnemental de leurs pratiques numériques.",
-    impact: "25 entreprises formées, guide de bonnes pratiques diffusé",
-    tags: ["Numérique", "Formation", "Sobriété"]
+    title: "CIAS-SSR 2025 – Boursier Junior",
+    year: "2025",
+    description: "Participation au Colloque International sur les Avancées Scientifiques en Santé Sexuelle et Reproductive à Cotonou, en tant que boursier junior sélectionné.",
+    impact: "Échanges avec experts UNFPA, Enabel, Partenariat de Ouagadougou et ABPF",
+    tags: ["Santé reproductive", "Recherche", "International"]
   },
   {
     id: "campaign-5",
-    title: "Recours contre l'État pour inaction climatique",
-    year: "2020-2022",
-    description: "Participation à l'action en justice citoyenne pour contraindre l'État à respecter ses engagements climatiques.",
-    impact: "Victoire historique avec condamnation de l'État",
-    tags: ["Justice", "Plaidoyer", "Victoire"]
+    title: "Make Africa 2025 – Contribution Wikimedia",
+    year: "2025",
+    description: "Contribution aux projets Wikidata et Wikipédia lors du festival Make Africa 2025, pour enrichir la présence du Bénin sur les plateformes numériques mondiales.",
+    impact: "Marchés et quartiers du Bénin ajoutés, articles en langue Fon créés",
+    tags: ["Numérique", "Wikimedia", "Bénin"]
   },
   {
     id: "campaign-6",
-    title: "Réseau Jeunes pour le Climat",
-    year: "2019-2024",
-    description: "Coordination d'un réseau national de jeunes militants avec formations, actions et soutien psychologique.",
-    impact: "2,000+ jeunes formés, 15 antennes locales créées",
-    tags: ["Jeunesse", "Réseau", "Formation"]
+    title: "Restitution Bootcamp YES 2025",
+    year: "2025",
+    description: "Co-organisation de la séance de restitution du Bootcamp YES Natitingou 2025 à l'UAC, partageant les acquis en santé reproductive, entrepreneuriat durable et environnement.",
+    impact: "15+ jeunes inspirés, espace d'échange créé entre alumni et nouvelle génération",
+    tags: ["Jeunesse", "Entrepreneuriat", "UNFPA"]
   }
 ];
 
+// Real blog posts from laurentnassara.wordpress.com
 export const blogPosts: BlogPost[] = [
   {
     id: "blog-1",
-    title: "L'intersectionnalité dans la lutte climatique : pourquoi c'est essentiel",
-    excerpt: "Exploration des liens entre justice climatique, justice sociale et lutte contre toutes les formes de discriminations.",
-    date: "15 mars 2024",
-    readTime: "8 min",
-    category: "Réflexion",
-    image: "/blog/intersectionnalite.jpg"
+    title: "L'impact invisible de la pollution sur la santé sexuelle des jeunes filles vivant dans les quartiers informels du sud du Bénin",
+    excerpt: "Dans les quartiers informels du Sud du Bénin, notamment Toweta, Ladji ou Ganvié, l'impact de la pollution sur la santé sexuelle est un mal souvent ignoré, pourtant dévastateur.",
+    date: "21 novembre 2025",
+    readTime: "6 min",
+    category: "Santé & Environnement",
+    image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800",
+    url: "https://laurentnassara.wordpress.com/2025/11/21/limpact-invisible-de-la-pollution/"
   },
   {
     id: "blog-2",
-    title: "Guide pratique : organiser une action non-violente efficace",
-    excerpt: "Toutes les étapes, de la planification à la communication, pour des actions militantes qui font avancer la cause.",
-    date: "28 février 2024",
-    readTime: "12 min",
-    category: "Action",
-    image: "/blog/guide-action.jpg"
+    title: "Ma contribution aux projets Wikimedia lors de Make Africa 2025",
+    excerpt: "Du 5 au 8 novembre 2025, le Wikimediens User Group du Bénin a organisé un atelier Wikidata dans le cadre du festival Make Africa — quatre jours pour enrichir la présence du Bénin.",
+    date: "9 novembre 2025",
+    readTime: "4 min",
+    category: "Numérique",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800",
+    url: "https://laurentnassara.wordpress.com/2025/11/09/wikimedia-make-africa-2025/"
   },
   {
     id: "blog-3",
-    title: "Le paradoxe du militantisme numérique : outils indispensables mais polluants",
-    excerpt: "Comment concilier l'utilisation des technologies avec nos valeurs écologiques ? Analyse et alternatives.",
-    date: "10 février 2024",
-    readTime: "10 min",
-    category: "Numérique",
-    image: "/blog/paradoxe-numerique.jpg"
+    title: "CIAS-SSR 2025 : Retour sur un colloque international dédié à la Santé Sexuelle et Reproductive",
+    excerpt: "J'ai eu l'honneur de participer en tant que boursier junior au Colloque International sur les Avancées Scientifiques en Santé Sexuelle et Reproductive à Cotonou.",
+    date: "9 novembre 2025",
+    readTime: "5 min",
+    category: "Santé reproductive",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800",
+    url: "https://laurentnassara.wordpress.com/2025/11/09/cias-ssr-2025/"
   },
   {
     id: "blog-4",
-    title: "Témoignage : 6 mois avec les défenseurs de l'Amazonie",
-    excerpt: "Récit d'une immersion auprès des gardiens de la forêt amazonienne et de leurs combats quotidiens.",
-    date: "25 janvier 2024",
-    readTime: "15 min",
-    category: "Témoignage",
-    image: "/blog/amazonie.jpg"
+    title: "Ma participation à la formation des points focaux CIWA d'Amnesty International Bénin à Bohicon",
+    excerpt: "Formation sur le web activisme sain organisée par le comité CIWA d'Amnesty International Bénin — comment influencer un changement social par le numérique, avec éthique.",
+    date: "27 octobre 2025",
+    readTime: "5 min",
+    category: "Droits Humains",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
+    url: "https://laurentnassara.wordpress.com/2025/10/27/formation-ciwa-amnesty/"
+  },
+  {
+    id: "blog-5",
+    title: "Ganvié : trois jours de collecte communautaire de jacinthes d'eau par le MJPEA",
+    excerpt: "Les eaux de Ganvié ont vibré au rythme d'une action collective inédite : la collecte de jacinthes d'eau pour soutenir l'entrepreneuriat féminin de la coopérative TOGBLE-TOGNON.",
+    date: "30 septembre 2025",
+    readTime: "4 min",
+    category: "Environnement",
+    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=800",
+    url: "https://laurentnassara.wordpress.com/2025/09/30/ganvie-jacinthes-deau-mjpea/"
+  },
+  {
+    id: "blog-6",
+    title: "Ganvié : Les élèves de l'EPP GÈDÈVIÉ deviennent ambassadeurs des ODD",
+    excerpt: "À l'occasion des 10 ans de l'Agenda 2030, le MJPEA et l'APODD ont sensibilisé les élèves de l'EPP GÈDÈVIÉ aux Objectifs de Développement Durable.",
+    date: "26 septembre 2025",
+    readTime: "3 min",
+    category: "Éducation",
+    image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=800",
+    url: "https://laurentnassara.wordpress.com/2025/09/26/epp-gedvie-ambassadeurs-odd/"
   }
 ];
 
 export const certificates: Certificate[] = [
   {
     id: "cert-1",
-    title: "Diplôme en Droit de l'Environnement",
-    issuer: "Université Paris 1 Panthéon-Sorbonne",
-    year: "2022",
-    description: "Spécialisation en droit international de l'environnement et contentieux climatique.",
-    skills: ["Droit international", "Contentieux", "Négociation"],
-    credentialUrl: "https://certificates.example.com/12345"
+    category: 'Biodiversité',
+    icon: '🦅',
+    title: 'Identifier et dénombrer les oiseaux d\'Afrique du Nord et du Sahel',
+    subtitle: 'Comment et dans quel but ?',
+    issuer: 'MOOC Conservation',
+    year: '2024',
+    color: '#1B5E20',
+    credentialUrl: 'https://www.mooc-conservation.org/certificates/07d024ea1b4d4b57befe422168c917da',
+    description: 'Certification en identification et dénombrement des oiseaux d\'Afrique du Nord et du Sahel.',
+    skills: ['Ornithologie', 'Biodiversité', 'Conservation'],
   },
   {
     id: "cert-2",
-    title: "Certification en Action Non-Violente",
-    issuer: "Centre pour l'Action Non-Violente",
-    year: "2021",
-    description: "Formation aux techniques de désobéissance civile, gestion des conflits et sécurité en manifestation.",
-    skills: ["Désobéissance civile", "Médiation", "Sécurité"],
-    credentialUrl: "https://certificates.example.com/67890"
+    category: 'Conservation',
+    icon: '⚖️',
+    title: 'Application des lois en matière de conservation',
+    subtitle: 'Certificat de réussite',
+    issuer: 'MOOC Conservation',
+    year: '2024',
+    color: '#2E7D32',
+    credentialUrl: 'https://www.mooc-conservation.org/certificates/84e5e61f6ab14209913328f18a25eb27',
+    description: 'Maîtrise des cadres légaux en matière de conservation de la biodiversité.',
+    skills: ['Droit environnemental', 'Conservation', 'Législation'],
   },
   {
     id: "cert-3",
-    title: "Expert en Communication Militante",
-    issuer: "École des Métiers de l'Engagement",
-    year: "2020",
-    description: "Stratégies de communication engageante, réseaux sociaux militants et relations presse.",
-    skills: ["Communication", "Réseaux sociaux", "Relations presse"]
+    category: 'Droits Humains',
+    icon: '🏛️',
+    title: 'Démocratie, Citoyenneté et État de Droit',
+    subtitle: 'Attestation de succès',
+    issuer: 'Université de Senghor',
+    year: '2024',
+    color: '#1565C0',
+    credentialUrl: 'https://drive.google.com/file/d/171-b0ctm0Pn8Fihm3DlkfDmKKvPsQZMz/view?usp=drivesdk',
+    description: 'Formation sur la démocratie, la citoyenneté et l\'état de droit.',
+    skills: ['Démocratie', 'Citoyenneté', 'État de droit'],
   },
   {
     id: "cert-4",
-    title: "Facilitateur de Transition Écologique",
-    issuer: "Institut de la Transition",
-    year: "2019",
-    description: "Accompagnement des collectivités et organisations dans leur transformation écologique.",
-    skills: ["Transition écologique", "Accompagnement", "Stratégie"]
+    category: 'Juridique',
+    icon: '📋',
+    title: 'Formation sur la rédaction des recours',
+    subtitle: 'Attestation de participation',
+    issuer: 'Formation spécialisée',
+    year: '2024',
+    color: '#E8572A',
+    credentialUrl: 'https://drive.google.com/file/d/170LnvLYdXePejCa1PmFsUGEwicvsfSqi/view?usp=drivesdk',
+    description: 'Formation pratique à la rédaction de recours juridiques.',
+    skills: ['Rédaction juridique', 'Recours', 'Plaidoyer'],
   },
   {
     id: "cert-5",
-    title: "Sécurité Numérique pour Militants",
-    issuer: "Digital Rights Foundation",
-    year: "2023",
-    description: "Protection des données, chiffrement des communications et sécurité opérationnelle en ligne.",
-    skills: ["Sécurité numérique", "Chiffrement", "Protection données"]
-  }
-];
+    category: 'Santé Reproductive',
+    icon: '🩺',
+    title: 'Colloque international CIAS-SSR 2025',
+    subtitle: 'Santé Sexuelle et Reproductive',
+    issuer: 'ABPF / Enabel Bénin',
+    year: '2025',
+    color: '#6A1B9A',
+    credentialUrl: 'https://drive.google.com/file/d/17I-iphzfbzWepwI4BFyFSsadKnIzgYng/view?usp=drivesdk',
+    description: 'Participation en tant que boursier junior au colloque international sur les avancées scientifiques en DSSR.',
+    skills: ['DSSR', 'Plaidoyer santé', 'Recherche'],
+  },
+  {
+    id: "cert-6",
+    category: 'Paix & Sécurité',
+    icon: '🕊️',
+    title: 'Introduction aux opérations de paix',
+    subtitle: 'Certificat de succès – Programme en ligne',
+    issuer: 'Formation internationale',
+    year: '2024',
+    color: '#00838F',
+    credentialUrl: 'https://drive.google.com/file/d/17683rkZljRkbdadVwrL_D3OLlaVhs8T3/view?usp=drivesdk',
+    description: 'Connaissances fondamentales des opérations de paix de l\'ONU.',
+    skills: ['Opérations de paix', 'Sécurité internationale', 'ONU'],
+  },
+  {
+    id: "cert-7",
+    category: 'Santé Reproductive',
+    icon: '🌐',
+    title: 'Conférence internationale sur la planification familiale',
+    subtitle: 'ICFP Bogota 2025',
+    issuer: 'ICFP — Bogota, Colombie',
+    year: '2025',
+    color: '#AD1457',
+    credentialUrl: 'https://drive.google.com/file/d/15cBtyAURS9p4BHaWmbJcMP2g7Zf41TvX/view?usp=drivesdk',
+    description: 'Participation à la conférence internationale sur la planification familiale à Bogota.',
+    skills: ['Planification familiale', 'DSSR', 'International'],
+  },
+  {
+    id: "cert-8",
+    category: 'Leadership Jeunesse',
+    icon: '🤝',
+    title: 'AU-EU Youth Voice Lab — Power of the Collective',
+    subtitle: 'Certificate of Attendance',
+    issuer: 'Union Africaine – Union Européenne',
+    year: '2024',
+    color: '#F57F17',
+    credentialUrl: 'https://drive.google.com/file/d/176nu5_JPyqZzqrJcBYejTNqHiu3FVFz_/view?usp=drivesdk',
+    description: 'Programme AU-EU Youth Voice Lab sur la puissance collective et le leadership jeunesse.',
+    skills: ['Leadership', 'Coopération AU-EU', 'Jeunesse'],
+  },
+  {
+    id: "cert-9",
+    category: 'Diplomatie',
+    icon: '🗺️',
+    title: 'Conférence d\'initiative au multilatéralisme',
+    subtitle: 'Chef de la délégation de l\'Union Africaine',
+    issuer: 'Conférence internationale',
+    year: '2024',
+    color: '#1B5E20',
+    credentialUrl: 'https://drive.google.com/file/d/172skRGPQC553EysqrehxNotziciDoFqh/view?usp=drivesdk',
+    description: 'Participation en qualité de chef de la délégation de l\'Union Africaine.',
+    skills: ['Diplomatie', 'Multilatéralisme', 'UA'],
+  },
+] as any;

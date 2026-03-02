@@ -12,6 +12,7 @@ import Certificates from './pages/Certificates';
 import Publications from './pages/Publications';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+import BlogPreview from './pages/BlogPreview';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/certificates" element={<Certificates />} />
         <Route path="/publications" element={<Publications />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path='blog' element={<BlogPreview />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

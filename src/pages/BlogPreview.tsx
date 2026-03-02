@@ -1,76 +1,146 @@
-import React from 'react';
-import { blogPosts, siteConfig } from '../data/siteData';
+import React, { useEffect, useRef, useState } from 'react';
+import { actionAreas } from '../data/siteData';
 
-const BlogPreview: React.FC = () => {
+const Actions: React.FC = () => {
+  const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0');
+            setVisibleItems((prev) => new Set([...prev, index]));
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    itemRefs.current.forEach((ref) => { if (ref) observer.observe(ref); });
+    return () => observer.disconnect();
+  }, []);
+
+  const accentColors = ['#E8572A', '#1B5E20', '#1565C0'];
+  const bgColors = ['#FFF5F2', '#F1F8E9', '#F0F4FF'];
+
   return (
-    <section id="publications" className="py-20 bg-white">
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#1B5E20]">
-            Publications & Veille
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Analyses, réflexions et ressources pour approfondir la lutte
-          </p>
+    <div className="min-h-screen bg-[#FAFAF8]" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+
+      {/* ─── HEADER — image background, compact ─── */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&q=80&w=2000')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 60%',
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/55 to-black/70" />
+        <div className="relative z-10 container mx-auto px-6 md:px-12 max-w-6xl pt-32 pb-20">
+          <div className="flex items-start gap-5">
+            <div className="w-1 h-16 bg-[#E8572A] flex-shrink-0 mt-2" />
+            <div>
+              <p className="text-[#E8572A] text-sm tracking-[0.25em] uppercase font-sans mb-3">Expertise & Engagement</p>
+              <h1 className="text-5xl md:text-6xl font-bold text-white leading-none mb-4" style={{ letterSpacing: '-0.02em' }}>
+                Domaines<br /><span className="text-[#7CB97E]">d'action</span>
+              </h1>
+              <p className="text-gray-300 font-sans text-lg mt-5 max-w-xl leading-relaxed">
+                Trois axes interdépendants pour une lutte cohérente — où chaque combat renforce les autres.
+              </p>
+            </div>
+          </div>
         </div>
-        
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {blogPosts.slice(0, 4).map((post) => (
-            <article 
-              key={post.id} 
-              className="bg-gradient-to-br from-white to-[#F1F8E9] rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300"
+      </section>
+
+      <main className="container mx-auto px-6 md:px-12 max-w-6xl py-20">
+        <div className="space-y-8">
+          {actionAreas.map((area, index) => (
+            <div
+              key={area.id}
+              ref={(el) => { itemRefs.current[index] = el; }}
+              data-index={index}
+              className="group relative rounded-3xl overflow-hidden transition-all duration-700"
+              style={{
+                opacity: visibleItems.has(index) ? 1 : 0,
+                transform: visibleItems.has(index) ? 'translateY(0)' : 'translateY(40px)',
+                transitionDelay: `${index * 120}ms`,
+                background: bgColors[index % bgColors.length],
+                border: `1px solid ${accentColors[index % accentColors.length]}22`,
+              }}
             >
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 bg-[#E8F5E9] text-[#1B5E20] text-sm rounded-full">
-                    {post.category}
-                  </span>
-                  <div className="flex items-center text-gray-500 text-sm">
-                    <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    {post.readTime}
+              <div className="absolute top-6 right-8 text-[120px] font-bold leading-none select-none pointer-events-none" style={{ color: `${accentColors[index % accentColors.length]}10` }}>
+                {String(index + 1).padStart(2, '0')}
+              </div>
+              <div className="relative p-8 md:p-12">
+                <div className="flex flex-col md:flex-row gap-10">
+                  <div className="md:w-2/5">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: `${accentColors[index % accentColors.length]}18` }}>
+                        {area.icon}
+                      </div>
+                      <div className="w-8 h-[2px]" style={{ background: accentColors[index % accentColors.length] }} />
+                      <span className="text-xs tracking-[0.2em] uppercase font-sans font-semibold" style={{ color: accentColors[index % accentColors.length] }}>
+                        Axe {index + 1}
+                      </span>
+                    </div>
+                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{area.title}</h3>
+                    <p className="text-gray-600 leading-relaxed font-sans text-base">{area.description}</p>
+                    <a href="/contact"
+                      className="inline-flex items-center gap-3 mt-8 px-6 py-3 rounded-full text-white text-sm font-sans font-semibold transition-all duration-300 hover:gap-5 hover:shadow-lg"
+                      style={{ background: accentColors[index % accentColors.length] }}>
+                      Collaborer
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </a>
+                  </div>
+                  <div className="hidden md:block w-[1px] self-stretch" style={{ background: `${accentColors[index % accentColors.length]}25` }} />
+                  <div className="md:w-3/5">
+                    <h4 className="text-xs tracking-[0.2em] uppercase font-sans font-semibold text-gray-400 mb-6">Exemples concrets</h4>
+                    <ul className="space-y-4">
+                      {area.examples.map((example, i) => (
+                        <li key={i} className="flex items-start gap-4 group/item">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform duration-300 group-hover/item:scale-110" style={{ background: `${accentColors[index % accentColors.length]}18` }}>
+                            <div className="w-2 h-2 rounded-full" style={{ background: accentColors[index % accentColors.length] }} />
+                          </div>
+                          <span className="text-gray-700 font-sans leading-relaxed">{example}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
-                  {post.title}
-                </h3>
-                
-                <p className="text-gray-700 mb-6">
-                  {post.excerpt}
-                </p>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{post.date}</span>
-                  <button className="text-[#1B5E20] font-semibold hover:text-[#FF9800] transition-colors">
-                    Lire l'article →
-                  </button>
-                </div>
               </div>
-            </article>
+            </div>
           ))}
         </div>
-        
-        <div className="text-center">
-          <a 
-            href={siteConfig.blog.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-8 py-4 bg-[#1B5E20] text-white font-semibold rounded-full hover:bg-[#2E7D32] transition-colors shadow-lg hover:shadow-xl text-lg"
-          >
-            <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-            Accéder à mon blog complet
-          </a>
-          <p className="mt-4 text-gray-600">
-            Géré sur WordPress → {siteConfig.blog.url}
-          </p>
+
+        {/* ─── APPROCHE GLOBALE ─── */}
+        <div className="mt-24 relative rounded-3xl overflow-hidden bg-[#0D1F0D] p-10 md:p-16">
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+          <div className="absolute top-0 left-0 w-32 h-32 rounded-br-full opacity-20" style={{ background: '#E8572A' }} />
+          <div className="relative">
+            <p className="text-[#E8572A] text-xs tracking-[0.3em] uppercase font-sans mb-4">Vision stratégique</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-12" style={{ letterSpacing: '-0.02em' }}>Mon approche globale</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { icon: '⟳', title: 'Intersectionnalité', text: "Chaque lutte est connectée. La justice climatique ne peut exister sans justice sociale, raciale et économique.", color: '#E8572A' },
+                { icon: '◈', title: 'Action multi-niveaux', text: 'Agir simultanément au niveau local, national et international pour un impact maximal et durable.', color: '#7CB97E' },
+                { icon: '◎', title: 'Pédagogie active', text: 'Former et outiller les nouvelles générations pour pérenniser les luttes et les victoires collectives.', color: '#64B5F6' },
+              ].map((item, i) => (
+                <div key={i}>
+                  <div className="text-3xl mb-4" style={{ color: item.color }}>{item.icon}</div>
+                  <div className="w-8 h-[2px] mb-4" style={{ background: item.color }} />
+                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                  <p className="text-gray-400 font-sans leading-relaxed text-sm">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
 };
 
-export default BlogPreview;
+export default Actions;
