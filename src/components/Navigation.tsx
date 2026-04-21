@@ -1,106 +1,191 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { siteConfig } from '../data/siteData';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const navItems = [
-    { label: 'Accueil', path: '/' },
-    { label: 'À propos', path: '/about' },
-    { label: 'Domaines', path: '/actions' },
-    { label: 'Campagnes', path: '/campaigns' },
-    { label: 'Certifications', path: '/certificates' },
-    { label: 'Publications', path: '/publications' },
-    { label: 'Contact', path: '/contact' },
+    { label: "Accueil", path: "/" },
+    { label: "À propos", path: "/about" },
+    { label: "Domaines", path: "/actions" },
+    { label: "Campagnes", path: "/campaigns" },
+    { label: "Certifications", path: "/certificates" },
+    { label: "Publications", path: "/publications" },
+    { label: "Contact", path: "/contact" },
   ];
 
-  const isActive = (path: string) => {
-    if (path === '/') {
-      return location.pathname === path;
-    }
-    return location.pathname.startsWith(path);
-  };
+  const isActive = (path: string) =>
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(path);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 border-b border-gray-200">
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-[#1B5E20]">
-              <img src="logo.png" alt="logo" className='max-w-24' />
-            </Link>
-          </div>
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        background: scrolled
+          ? "rgba(247,244,239,0.95)"
+          : "rgba(247,244,239,0.9)",
+        backdropFilter: "blur(12px)",
+        borderBottom: scrolled ? "1px solid #E2DDD4" : "1px solid transparent",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: "64px",
+          }}
+        >
+          {/* Logo */}
+          <Link
+            to="/"
+            style={{ display: "flex", alignItems: "center", gap: "10px" }}
+          >
+            <span
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "1.25rem",
+                fontWeight: 600,
+                color: "#1A1916",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Laurent Nassara
+            </span>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          {/* Desktop Nav */}
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}
+            className="hidden md:flex"
+          >
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 to={item.path}
-                className={`px-3 py-2 rounded-lg font-medium transition-colors ${
-                  isActive(item.path)
-                    ? 'bg-[#1B5E20] text-white'
-                    : 'text-gray-700 hover:text-[#1B5E20] hover:bg-[#F1F8E9]'
-                }`}
+                style={{
+                  padding: "6px 14px",
+                  fontSize: "0.8125rem",
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: isActive(item.path) ? 500 : 400,
+                  color: isActive(item.path) ? "#1A1916" : "#6B6560",
+                  borderBottom: isActive(item.path)
+                    ? "1px solid #C4A882"
+                    : "1px solid transparent",
+                  letterSpacing: "0.01em",
+                }}
               >
                 {item.label}
               </Link>
             ))}
             <a
-              href={siteConfig.blog.url}
+              href="https://laurentnassara.wordpress.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-[#1B5E20] text-white rounded-full hover:bg-[#2E7D32] transition-colors font-medium"
+              style={{
+                marginLeft: "0.5rem",
+                padding: "7px 18px",
+                fontSize: "0.8125rem",
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
+                color: "#1A1916",
+                border: "1px solid #1A1916",
+                letterSpacing: "0.02em",
+              }}
             >
-              Blog
+              Blog ↗
             </a>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile burger */}
           <button
-            className="md:hidden text-gray-700"
+            className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "#1A1916",
+            }}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+            >
               {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               )}
             </svg>
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
-            <div className="py-4 space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  className={`block px-4 py-3 rounded-lg transition-colors ${
-                    isActive(item.path)
-                      ? 'bg-[#1B5E20] text-white'
-                      : 'text-gray-700 hover:bg-[#F1F8E9]'
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <a
-                href={siteConfig.blog.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-3 bg-[#1B5E20] text-white rounded-lg hover:bg-[#2E7D32] transition-colors text-center font-medium"
+          <div
+            style={{ borderTop: "1px solid #E2DDD4", paddingBottom: "1rem" }}
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
                 onClick={() => setIsMenuOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "12px 4px",
+                  fontSize: "0.9375rem",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 500,
+                  color: isActive(item.path) ? "#1A1916" : "#6B6560",
+                  borderBottom: "1px solid #EDE9E2",
+                }}
               >
-                Accéder au blog
-              </a>
-            </div>
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href="https://laurentnassara.wordpress.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                display: "block",
+                padding: "12px 4px",
+                fontSize: "0.9375rem",
+                color: "#6B6560",
+              }}
+            >
+              Blog ↗
+            </a>
           </div>
         )}
       </div>

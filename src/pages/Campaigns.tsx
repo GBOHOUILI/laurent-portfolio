@@ -1,278 +1,339 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { campaigns } from '../data/siteData';
+import React, { useState } from "react";
+import PageSEO from "../components/PageSEO";
+import Footer from "../components/Footer";
+import { campaigns } from "../data/siteData";
 
-const tagColors: Record<string, string> = {
-  'Droits humains': '#1565C0',
-  'Plaidoyer': '#6A1B9A',
-  'International': '#00838F',
-  'Action directe': '#E8572A',
-  'Énergie fossile': '#BF360C',
-  'Mobilisation': '#E8572A',
-  'Communauté': '#1B5E20',
-  'Végétalisation': '#2E7D32',
-  'Justice sociale': '#1B5E20',
-  'Numérique': '#1565C0',
-  'Formation': '#F57F17',
-  'Sobriété': '#00695C',
-  'Justice': '#6A1B9A',
-  'Victoire': '#1B5E20',
-  'Jeunesse': '#AD1457',
-  'Réseau': '#0277BD',
-};
-
-const methodSteps = [
-  { icon: '🔍', title: 'Diagnostic', desc: 'Analyse approfondie des enjeux et parties prenantes' },
-  { icon: '🤝', title: 'Coalition', desc: 'Mobilisation des acteurs concernés et alliés' },
-  { icon: '🎯', title: 'Action', desc: 'Mise en œuvre de stratégies adaptées et éthiques' },
-  { icon: '📊', title: 'Évaluation', desc: "Mesure d'impact et apprentissages pour l'avenir" },
+const allTags = [
+  "Tous",
+  ...Array.from(new Set(campaigns.flatMap((c) => c.tags))),
 ];
 
 const Campaigns: React.FC = () => {
-  const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
-  const itemRefs = useRef<(HTMLElement | null)[]>([]);
+  const [activeTag, setActiveTag] = useState("Tous");
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = parseInt(entry.target.getAttribute('data-index') || '0');
-            setVisibleItems((prev) => new Set([...prev, idx]));
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    itemRefs.current.forEach((ref) => { if (ref) observer.observe(ref); });
-    return () => observer.disconnect();
-  }, []);
+  const filtered =
+    activeTag === "Tous"
+      ? campaigns
+      : campaigns.filter((c) => c.tags.includes(activeTag));
 
   return (
-    <div
-      className="min-h-screen bg-[#FAFAF8]"
-      style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
-    >
-      {/* ─── HEADER ─── */}
-      <div className="relative pt-28 pb-20 overflow-hidden bg-[#0D1F0D]">
+    <>
+      <PageSEO
+        title="Campagnes"
+        description="Les campagnes et actions militantes de Laurent NASSARA au Bénin et à l'international."
+        path="/campaigns"
+      />
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#F7F4EF",
+          paddingTop: "64px",
+        }}
+      >
+        {/* Header */}
         <div
-          className="absolute inset-0 opacity-[0.07] pointer-events-none"
           style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "5rem 2rem 3rem",
           }}
-        />
+        >
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.7rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase" as const,
+              color: "#9E9890",
+              marginBottom: "1.5rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                width: "32px",
+                height: "1px",
+                background: "#C4A882",
+              }}
+            />
+            Terrain & Plaidoyer
+          </p>
+          <h1
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
+              color: "#1A1916",
+              lineHeight: 1.1,
+              marginBottom: "1.5rem",
+            }}
+          >
+            Campagnes
+          </h1>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "1rem",
+              color: "#6B6560",
+              maxWidth: "520px",
+              lineHeight: 1.7,
+              fontWeight: 300,
+            }}
+          >
+            Actions concrètes sur le terrain, plaidoyer institutionnel et
+            mobilisation communautaire au Bénin et à l'international.
+          </p>
+        </div>
+
         <div
-          className="absolute top-0 right-0 w-[35%] h-full opacity-10 pointer-events-none"
-          style={{ background: 'linear-gradient(135deg, transparent 50%, #E8572A 100%)' }}
-        />
-
-        <div className="relative container mx-auto px-6 md:px-12 max-w-6xl">
-          <div className="flex items-start gap-5">
-            <div className="w-1 h-20 bg-[#E8572A] flex-shrink-0 mt-2" />
-            <div>
-              <p className="text-[#E8572A] text-sm tracking-[0.25em] uppercase font-sans mb-3">
-                Terrain & Mobilisation
-              </p>
-              <h1
-                className="text-5xl md:text-7xl font-bold text-white leading-none mb-4"
-                style={{ letterSpacing: '-0.02em' }}
+          style={{
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "0 2rem 6rem",
+          }}
+        >
+          {/* Filters */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+              marginBottom: "3rem",
+            }}
+          >
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setActiveTag(tag)}
+                style={{
+                  padding: "7px 18px",
+                  fontSize: "0.8125rem",
+                  fontFamily: "'DM Sans', sans-serif",
+                  cursor: "pointer",
+                  border: "1px solid",
+                  borderColor: activeTag === tag ? "#1A1916" : "#E2DDD4",
+                  background: activeTag === tag ? "#1A1916" : "transparent",
+                  color: activeTag === tag ? "#F7F4EF" : "#6B6560",
+                  transition: "all 0.2s",
+                }}
               >
-                Engagements<br />
-                <span className="text-[#7CB97E]">& Campagnes</span>
-              </h1>
-              <p className="text-gray-400 font-sans text-lg mt-6 max-w-xl leading-relaxed">
-                Un aperçu des combats menés et des victoires collectives — du local à l'international.
-              </p>
-            </div>
-          </div>
-
-          {/* Quick stats */}
-          <div className="flex flex-wrap gap-12 mt-14 pl-6">
-            {[
-              { n: campaigns.length.toString(), l: 'Campagnes' },
-              { n: '2K+', l: 'Personnes mobilisées' },
-              { n: '3', l: 'Victoires juridiques' },
-            ].map((s, i) => (
-              <div key={i}>
-                <div className="text-4xl font-bold text-white">{s.n}</div>
-                <div className="text-gray-400 font-sans text-sm mt-1">{s.l}</div>
-              </div>
+                {tag}
+              </button>
             ))}
           </div>
-        </div>
-      </div>
 
-      <main className="container mx-auto px-6 md:px-12 max-w-6xl py-20">
-
-        {/* ─── CAMPAIGNS LIST ─── */}
-        <div className="mb-8 flex items-center gap-4">
-          <div className="w-8 h-[2px] bg-[#E8572A]" />
-          <p className="text-[#E8572A] text-xs tracking-[0.3em] uppercase font-sans">Campagnes principales</p>
-        </div>
-
-        <div className="space-y-6 mb-24">
-          {campaigns.map((campaign, index) => (
-            <article
-              key={campaign.id}
-              ref={(el) => { itemRefs.current[index] = el; }}
-              data-index={index}
-              className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-500"
-              style={{
-                opacity: visibleItems.has(index) ? 1 : 0,
-                transform: visibleItems.has(index) ? 'translateY(0)' : 'translateY(32px)',
-                transitionDelay: `${(index % 4) * 80}ms`,
-                borderLeft: '3px solid transparent',
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderLeftColor = '#E8572A'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderLeftColor = 'transparent'; }}
-            >
-              {/* Big year watermark */}
+          {/* Campaign list */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column" as const,
+              gap: "1px",
+              background: "#E2DDD4",
+            }}
+          >
+            {filtered.map((c, i) => (
               <div
-                className="absolute top-4 right-6 text-[80px] font-bold leading-none select-none pointer-events-none opacity-[0.04]"
-                style={{ color: '#0D1F0D' }}
+                key={c.id}
+                style={{
+                  background: "#FDFCFA",
+                  padding: "2.5rem",
+                  display: "grid",
+                  gridTemplateColumns: "80px 1fr",
+                  gap: "2rem",
+                  transition: "background 0.2s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "#F7F4EF")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "#FDFCFA")
+                }
               >
-                {campaign.year.replace('-', '')}
-              </div>
-
-              <div className="relative p-8 md:p-10">
-                <div className="flex flex-col md:flex-row md:items-start gap-6">
-
-                  {/* Year badge */}
-                  <div className="flex-shrink-0">
-                    <div
-                      className="px-4 py-2 rounded-xl text-sm font-sans font-bold text-center min-w-[80px]"
-                      style={{ background: '#0D1F0D', color: '#7CB97E' }}
-                    >
-                      {campaign.year}
-                    </div>
+                {/* Year */}
+                <div style={{ paddingTop: "4px" }}>
+                  <div
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.5rem",
+                      fontWeight: 500,
+                      color: "#C4A882",
+                    }}
+                  >
+                    {c.year}
                   </div>
+                  <div
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "0.7rem",
+                      color: "#9E9890",
+                      marginTop: "2px",
+                    }}
+                  >
+                    #{String(i + 1).padStart(2, "0")}
+                  </div>
+                </div>
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 leading-snug">
-                      {campaign.title}
-                    </h3>
-
-                    <p className="text-gray-600 font-sans leading-relaxed mb-5">
-                      {campaign.description}
+                {/* Content */}
+                <div>
+                  <h2
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.625rem",
+                      fontWeight: 500,
+                      color: "#1A1916",
+                      lineHeight: 1.3,
+                      marginBottom: "0.75rem",
+                    }}
+                  >
+                    {c.title}
+                  </h2>
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "0.9375rem",
+                      color: "#6B6560",
+                      lineHeight: 1.7,
+                      marginBottom: "1rem",
+                      fontWeight: 300,
+                    }}
+                  >
+                    {c.description}
+                  </p>
+                  {c.impact && (
+                    <p
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.8125rem",
+                        color: "#C4A882",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      Impact : {c.impact}
                     </p>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-5">
-                      {campaign.tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 rounded-full text-xs font-sans font-semibold"
-                          style={{
-                            background: `${tagColors[tag] || '#1B5E20'}15`,
-                            color: tagColors[tag] || '#1B5E20',
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Impact */}
-                    {campaign.impact && (
-                      <div
-                        className="inline-flex items-start gap-3 px-5 py-3 rounded-xl"
-                        style={{ background: '#E8F5E9', border: '1px solid #A5D6A7' }}
+                  )}
+                  <div
+                    style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}
+                  >
+                    {c.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: "0.7rem",
+                          letterSpacing: "0.08em",
+                          color: "#9E9890",
+                          border: "1px solid #E2DDD4",
+                          padding: "3px 10px",
+                        }}
                       >
-                        <svg
-                          className="w-5 h-5 mt-0.5 flex-shrink-0"
-                          style={{ color: '#1B5E20' }}
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <div>
-                          <span
-                            className="text-xs uppercase tracking-wider font-sans font-bold block mb-0.5"
-                            style={{ color: '#1B5E20' }}
-                          >
-                            Impact & résultats
-                          </span>
-                          <span className="text-sm font-sans" style={{ color: '#2E7D32' }}>
-                            {campaign.impact}
-                          </span>
-                        </div>
-                      </div>
-                    )}
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
-            </article>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* ─── MÉTHODOLOGIE ─── */}
-        <div
-          ref={(el) => { itemRefs.current[campaigns.length] = el; }}
-          data-index={campaigns.length}
-          className="relative rounded-3xl overflow-hidden bg-[#0D1F0D] p-10 md:p-16"
-          style={{
-            opacity: visibleItems.has(campaigns.length) ? 1 : 0,
-            transform: visibleItems.has(campaigns.length) ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.65s ease, transform 0.65s ease',
-          }}
-        >
+          {/* Methodology */}
           <div
-            className="absolute inset-0 opacity-[0.04] pointer-events-none"
             style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '28px 28px',
+              marginTop: "5rem",
+              paddingTop: "4rem",
+              borderTop: "1px solid #E2DDD4",
             }}
-          />
-          <div
-            className="absolute bottom-0 right-0 w-48 h-48 rounded-tl-full opacity-10 pointer-events-none"
-            style={{ background: '#E8572A' }}
-          />
-
-          <div className="relative">
-            <p className="text-[#E8572A] text-xs tracking-[0.3em] uppercase font-sans mb-4">
-              Processus
-            </p>
+          >
             <h2
-              className="text-4xl font-bold text-white mb-14"
-              style={{ letterSpacing: '-0.02em' }}
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "2rem",
+                fontWeight: 500,
+                color: "#1A1916",
+                marginBottom: "3rem",
+                letterSpacing: "-0.02em",
+              }}
             >
-              Ma méthodologie d'action
+              Méthode de travail
             </h2>
-
-            <div className="grid md:grid-cols-4 gap-0 relative">
-              {/* Connector line */}
-              <div className="absolute top-8 left-[12.5%] right-[12.5%] h-[1px] bg-white/10 hidden md:block" />
-
-              {methodSteps.map((step, i) => (
-                <div key={i} className="relative text-center px-4">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+                gap: "1px",
+                background: "#E2DDD4",
+              }}
+            >
+              {[
+                {
+                  n: "01",
+                  label: "Diagnostic",
+                  text: "Analyse approfondie des enjeux et des parties prenantes",
+                },
+                {
+                  n: "02",
+                  label: "Coalition",
+                  text: "Mobilisation des acteurs concernés et construction d'alliances",
+                },
+                {
+                  n: "03",
+                  label: "Action",
+                  text: "Mise en œuvre de stratégies adaptées, éthiques et non-violentes",
+                },
+                {
+                  n: "04",
+                  label: "Évaluation",
+                  text: "Mesure d'impact et apprentissages pour renforcer l'action future",
+                },
+              ].map((step) => (
+                <div
+                  key={step.n}
+                  style={{ background: "#FDFCFA", padding: "2rem" }}
+                >
                   <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-5 relative z-10"
-                    style={{ background: '#E8572A18', border: '1px solid #E8572A30' }}
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "2.5rem",
+                      fontWeight: 300,
+                      color: "#E2DDD4",
+                      marginBottom: "1rem",
+                    }}
                   >
-                    {step.icon}
+                    {step.n}
                   </div>
-                  <div
-                    className="text-xs font-sans font-bold tracking-widest uppercase mb-1"
-                    style={{ color: '#E8572A' }}
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.25rem",
+                      fontWeight: 500,
+                      color: "#1A1916",
+                      marginBottom: "0.5rem",
+                    }}
                   >
-                    0{i + 1}
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
-                  <p className="text-gray-400 font-sans text-sm leading-relaxed">{step.desc}</p>
+                    {step.label}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "0.875rem",
+                      color: "#6B6560",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {step.text}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </main>
-    </div>
+
+        <Footer />
+      </div>
+    </>
   );
 };
 

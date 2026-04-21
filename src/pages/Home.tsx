@@ -1,150 +1,391 @@
-import React from 'react';
-import Hero from '../components/Hero';
-import Footer from '../components/Footer';
-import Presentation from '../components/HomePresentation';
-import KeyFigures from '../components/KeyFigures';
-import { CampaignCard } from "../components/CampaignCard";
+import React from "react";
+import Hero from "../components/Hero";
+import Footer from "../components/Footer";
+import { blogPosts, certificates, campaigns } from "../data/siteData";
+
 const Home: React.FC = () => {
+  const recentPosts = blogPosts.slice(0, 3);
+  const totalCerts = certificates.length;
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F1F8E9] to-white">
+    <div style={{ background: "#F7F4EF" }}>
       <Hero />
 
-      <section className="bg-white">
-        <Presentation />
-      </section>
-
-      <section className="">
-        <KeyFigures />
-      </section>
-
-      {/* NOUVELLE SECTION 1 : Mes actions en cours */}
-
-      <section className="py-4 md:py-8 bg-[#E8F5E9]">
-        <div className="container mx-auto px-6 md:px-12 max-w-6xl">
-
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-[#1B5E20]">
-            Mes actions en cours
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <CampaignCard
-              status="En cours"
-              title="#StopEACOP – Mobilisation contre l'oléoduc en Afrique de l'Est"
-              description="Campagne pour stopper ce projet destructeur pour les communautés et l'environnement. Rejoins-nous !"
-              image="https://img.globalcitizen.org/wcMjwgw-OcGwulVTp_Bqk5XeILyvbEWxku6913d5/1600x900%2Ffilters%3Aquality%2885%29%3Afocal%282332%2C655%29%2Fhttps%3A%2F%2Fmedia.globalcitizen.org%2F3d%2F86%2F3d86f458-7c45-4ec8-839f-f3a5e7fba096%2Fhero.jpg"
-              link="/campaigns/stop-eacop"
-              linkLabel="En savoir plus →"
-            />
-
-            <CampaignCard
-              status="À venir"
-              title="Atelier Justice Climatique – Cotonou 2026"
-              description="Formation gratuite sur l'intersection climat / droits humains. Inscriptions ouvertes !"
-              image="https://curious.earth/wp-content/uploads/2024/03/TZ_OCE-Action-3-e1711447670860.jpeg"
-              link="/events/atelier-2026"
-              linkLabel="S'inscrire →"
-            />
-
-          </div>
+      {/* Brief intro strip */}
+      <section
+        style={{
+          borderTop: "1px solid #E2DDD4",
+          borderBottom: "1px solid #E2DDD4",
+          background: "#FDFCFA",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "3rem 2rem",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "2rem",
+          }}
+        >
+          {[
+            {
+              href: "/about",
+              label: "À propos",
+              desc: "Parcours & engagements",
+            },
+            { href: "/actions", label: "Domaines", desc: "3 axes d'action" },
+            {
+              href: "/campaigns",
+              label: "Campagnes",
+              desc: "Actions sur le terrain",
+            },
+            {
+              href: "/certificates",
+              label: "Certifications",
+              desc: `${totalCerts} certifications`,
+            },
+            {
+              href: "/publications",
+              label: "Publications",
+              desc: `${blogPosts.length} articles`,
+            },
+            {
+              href: "/contact",
+              label: "Contact",
+              desc: "Collaborons ensemble",
+            },
+          ].map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              style={{
+                display: "block",
+                padding: "1.25rem 0",
+                borderTop: "2px solid transparent",
+                transition: "border-color 0.2s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.borderTopColor = "#C4A882")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.borderTopColor = "transparent")
+              }
+            >
+              <div
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1.25rem",
+                  fontWeight: 500,
+                  color: "#1A1916",
+                  marginBottom: "4px",
+                }}
+              >
+                {item.label}
+              </div>
+              <div
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.8125rem",
+                  color: "#9E9890",
+                }}
+              >
+                {item.desc}
+              </div>
+            </a>
+          ))}
         </div>
       </section>
 
-
-      {/* Ton bloc Bienvenue actuel */}
-      <div className="py-20">
-        <div className="container mx-auto px-4 md:px-8 max-w-6xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#1B5E20]">
-            Bienvenue sur mon espace militant
+      {/* Actions */}
+      <section
+        style={{ maxWidth: "1200px", margin: "0 auto", padding: "6rem 2rem" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            marginBottom: "3rem",
+            flexWrap: "wrap",
+            gap: "1rem",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "2.5rem",
+              fontWeight: 500,
+              color: "#1A1916",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Campagnes récentes
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Explorez les différentes sections pour découvrir mes engagements, actions et réflexions
-            sur la justice climatique et les droits humains.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-            <a href="/about" className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow hover:-translate-y-1 border border-gray-200">
-              <div className="text-3xl mb-3">👤</div>
-              <h3 className="font-bold text-gray-800">À propos</h3>
-            </a>
-            <a href="/actions" className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow hover:-translate-y-1 border border-gray-200">
-              <div className="text-3xl mb-3">🎯</div>
-              <h3 className="font-bold text-gray-800">Domaines</h3>
-            </a>
-            <a href="/campaigns" className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow hover:-translate-y-1 border border-gray-200">
-              <div className="text-3xl mb-3">🔥</div>
-              <h3 className="font-bold text-gray-800">Campagnes</h3>
-            </a>
-            <a href="/certificates" className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow hover:-translate-y-1 border border-gray-200">
-              <div className="text-3xl mb-3">📜</div>
-              <h3 className="font-bold text-gray-800">Certifications</h3>
-            </a>
-          </div>
+          <a
+            href="/campaigns"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.875rem",
+              color: "#6B6560",
+              borderBottom: "1px solid #C4A882",
+            }}
+          >
+            Toutes les campagnes →
+          </a>
         </div>
-      </div>
-
-      {/* NOUVELLE SECTION 2 : Dernières réflexions */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-6 md:px-12 max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-[#1B5E20]">
-            Dernières réflexions
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Exemple d'article – duplique selon tes posts */}
-            <div className="bg-[#F1F8E9] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all">
-              <div className="h-48 bg-cover bg-center"
-                style={{ backgroundImage: "url('https://miro.medium.com/1*KFvc9yeJs4lw3AuKqj4sRQ.jpeg')" }}>
-              </div>
-              <div className="p-6">
-                <span className="text-sm text-gray-500">8 Février 2026</span>
-                <h3 className="text-xl font-bold text-[#1B5E20] mt-2 mb-3">
-                  La crise climatique révèle les inégalités profondes en Afrique de l'Ouest
-                </h3>
-                <p className="text-gray-600 mb-4 line-clamp-3">
-                  Pourquoi les communautés les plus vulnérables subissent-elles le plus les conséquences...
-                </p>
-                <a href="/blog/crise-inegalites" className="text-[#1B5E20] font-semibold hover:underline">
-                  Lire l'article →
-                </a>
-              </div>
-            </div>
-
-            {/* Deuxième article exemple */}
-            <div className="bg-[#F1F8E9] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all">
-              <div className="h-48 bg-cover bg-center"
-                style={{ backgroundImage: "url('https://rwjf.scene7.com/is/image/rwjf/Climate_illustration?ts=1740618506789&dpr=off')" }}>
-              </div>
-              <div className="p-6">
-                <span className="text-sm text-gray-500">15 Janvier 2026</span>
-                <h3 className="text-xl font-bold text-[#1B5E20] mt-2 mb-3">
-                  5 leçons tirées des actions communautaires au Bénin
-                </h3>
-                <p className="text-gray-600 mb-4 line-clamp-3">
-                  Comment les initiatives locales peuvent changer la donne face au changement climatique...
-                </p>
-                <a href="/blog/5-lecons" className="text-[#1B5E20] font-semibold hover:underline">
-                  Lire l'article →
-                </a>
-              </div>
-            </div>
-
-            {/* Troisième – teaser vers blog */}
-            <div className="bg-[#F1F8E9] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all flex items-center justify-center text-center p-10">
-              <div>
-                <h3 className="text-2xl font-bold text-[#1B5E20] mb-4">
-                  Plus de réflexions à découvrir
-                </h3>
-                <a
-                  href="/blog"
-                  className="inline-block px-6 py-3 bg-[#1B5E20] text-white font-semibold rounded-full hover:bg-green-800 transition"
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gap: "1px",
+            background: "#E2DDD4",
+          }}
+        >
+          {campaigns.map((c) => (
+            <div key={c.id} style={{ background: "#FDFCFA", padding: "2rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "flex-start",
+                  marginBottom: "1rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "0.75rem",
+                    letterSpacing: "0.1em",
+                    color: "#9E9890",
+                    textTransform: "uppercase",
+                    paddingTop: "3px",
+                  }}
                 >
-                  Voir tous les articles
-                </a>
+                  {c.year}
+                </span>
+                <div>
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.25rem",
+                      fontWeight: 500,
+                      color: "#1A1916",
+                      lineHeight: 1.3,
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    {c.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "0.875rem",
+                      color: "#6B6560",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {c.description}
+                  </p>
+                  {c.impact && (
+                    <p
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.8rem",
+                        color: "#C4A882",
+                        marginTop: "0.75rem",
+                      }}
+                    >
+                      {c.impact}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  flexWrap: "wrap",
+                  marginTop: "1rem",
+                }}
+              >
+                {c.tags.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "0.7rem",
+                      letterSpacing: "0.08em",
+                      color: "#9E9890",
+                      border: "1px solid #E2DDD4",
+                      padding: "3px 10px",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Blog */}
+      <section style={{ borderTop: "1px solid #E2DDD4", padding: "6rem 2rem" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              marginBottom: "3rem",
+              flexWrap: "wrap",
+              gap: "1rem",
+            }}
+          >
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "2.5rem",
+                fontWeight: 500,
+                color: "#1A1916",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Dernières réflexions
+            </h2>
+            <a
+              href="/publications"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.875rem",
+                color: "#6B6560",
+                borderBottom: "1px solid #C4A882",
+              }}
+            >
+              Tous les articles →
+            </a>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gap: "2rem",
+            }}
+          >
+            {recentPosts.map((post) => (
+              <a
+                key={post.id}
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "block",
+                  background: "#FDFCFA",
+                  border: "1px solid #E2DDD4",
+                  overflow: "hidden",
+                  transition: "border-color 0.2s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.borderColor = "#C4A882")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.borderColor = "#E2DDD4")
+                }
+              >
+                <div
+                  style={{
+                    height: "200px",
+                    overflow: "hidden",
+                    background: "#F0EDE6",
+                  }}
+                >
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      transition: "transform 0.4s",
+                    }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=600";
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.03)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  />
+                </div>
+                <div style={{ padding: "1.5rem" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      marginBottom: "0.75rem",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.7rem",
+                        letterSpacing: "0.1em",
+                        color: "#C4A882",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {post.category}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.75rem",
+                        color: "#9E9890",
+                      }}
+                    >
+                      {post.date}
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.25rem",
+                      fontWeight: 500,
+                      color: "#1A1916",
+                      lineHeight: 1.35,
+                      marginBottom: "0.75rem",
+                    }}
+                  >
+                    {post.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "0.875rem",
+                      color: "#6B6560",
+                      lineHeight: 1.65,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {post.excerpt}
+                  </p>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

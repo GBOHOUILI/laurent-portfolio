@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const presentationImage = "laurent1.jpg";
 
@@ -7,13 +7,10 @@ const Presentation: React.FC = () => {
   return (
     <section className="relative min-h-[70vh] md:min-h-[85vh] bg-gradient-to-b from-[#F1F8E9] to-white overflow-hidden">
       {/* Bande diagonale supérieure en vert foncé (comme la turquoise d'Enabel mais verte) */}
-      <div
-        className="absolute top-0 left-0 right-0 h-24 md:h-40 bg-[#1B5E20] transform -skew-y-6 origin-top-left z-10"
-      />
+      <div className="absolute top-0 left-0 right-0 h-24 md:h-40 bg-[#1B5E20] transform -skew-y-6 origin-top-left z-10" />
 
       {/* Conteneur principal */}
       <div className="relative z-20 container mx-auto px-6 pt-16 pb-20 md:pt-28 md:pb-32 flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16">
-        
         {/* Bloc texte – vert foncé sur fond clair */}
         <div className="w-full md:w-1/2 lg:w-5/12 space-y-6 md:space-y-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-medium text-[#2E7D32]">
@@ -23,7 +20,9 @@ const Presentation: React.FC = () => {
             Laurent NASSARA
           </h1>
           <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-800 max-w-xl">
-            J’utilise le droit, le numérique et l’action citoyenne pour transformer les injustices sociales et climatiques en solutions durables.
+            J’utilise le droit, le numérique et l’action citoyenne pour
+            transformer les injustices sociales et climatiques en solutions
+            durables.
           </p>
           <div className="pt-4">
             <Link

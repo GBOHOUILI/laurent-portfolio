@@ -1,206 +1,247 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { actionAreas } from '../data/siteData';
+import React from "react";
+import PageSEO from "../components/PageSEO";
+import Footer from "../components/Footer";
+import { actionAreas } from "../data/siteData";
 
-const Actions: React.FC = () => {
-  const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = parseInt(entry.target.getAttribute('data-index') || '0');
-            setVisibleItems((prev) => new Set([...prev, index]));
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    itemRefs.current.forEach((ref) => { if (ref) observer.observe(ref); });
-    return () => observer.disconnect();
-  }, []);
-
-  const accentColors = ['#E8572A', '#1B5E20', '#1565C0'];
-  const bgColors = ['#FFF5F2', '#F1F8E9', '#F0F4FF'];
-
-  return (
-    <div className="min-h-screen bg-[#FAFAF8]" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
-
-      {/* ─── HEADER ─── */}
-      <div className="relative pt-28 pb-20 overflow-hidden bg-[#0D1F0D]">
-        {/* Decorative grid */}
-        <div className="absolute inset-0 opacity-10"
+const ActionAreas: React.FC = () => (
+  <>
+    <PageSEO
+      title="Domaines d'action"
+      description="Les trois axes d'engagement de Laurent NASSARA : Droits Humains & Climat, Justice Climatique & Écosystèmes, Numérique Responsable."
+      path="/actions"
+    />
+    <div
+      style={{ minHeight: "100vh", background: "#F7F4EF", paddingTop: "64px" }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "5rem 2rem 3rem",
+        }}
+      >
+        <p
           style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-            backgroundSize: '60px 60px'
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.7rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase" as const,
+            color: "#9E9890",
+            marginBottom: "1.5rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
           }}
-        />
-        {/* Diagonal accent */}
-        <div className="absolute top-0 right-0 w-1/3 h-full opacity-20"
-          style={{ background: 'linear-gradient(135deg, transparent 50%, #E8572A 50%)' }} />
+        >
+          <span
+            style={{
+              display: "inline-block",
+              width: "32px",
+              height: "1px",
+              background: "#C4A882",
+            }}
+          />
+          Engagement
+        </p>
+        <h1
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+            fontWeight: 500,
+            letterSpacing: "-0.03em",
+            color: "#1A1916",
+            lineHeight: 1.1,
+            marginBottom: "1.5rem",
+          }}
+        >
+          Domaines d'action
+        </h1>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "1rem",
+            color: "#6B6560",
+            maxWidth: "520px",
+            lineHeight: 1.7,
+            fontWeight: 300,
+          }}
+        >
+          Trois axes d'engagement complémentaires, ancrés dans une vision
+          globale de la justice sociale et environnementale.
+        </p>
+      </div>
 
-        <div className="relative container mx-auto px-6 md:px-12 max-w-6xl">
-          <div className="flex items-start gap-6">
-            <div className="mt-2">
-              <div className="w-1 h-16 bg-[#E8572A]" />
+      {/* Areas */}
+      <div
+        style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 2rem 6rem" }}
+      >
+        {actionAreas.map((area, i) => (
+          <div
+            key={area.id}
+            style={{
+              display: "grid",
+              gridTemplateColumns: i % 2 === 0 ? "1fr 2fr" : "2fr 1fr",
+              gap: "0",
+              background: "#FDFCFA",
+              border: "1px solid #E2DDD4",
+              marginBottom: "1px",
+              overflow: "hidden",
+            }}
+            className="action-row"
+          >
+            {/* Number / icon panel */}
+            <div
+              style={{
+                order: i % 2 === 0 ? 0 : 1,
+                background: "#F0EDE6",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "3rem",
+                minHeight: "320px",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "5rem",
+                  fontWeight: 300,
+                  color: "#1A1916",
+                  lineHeight: 1,
+                }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <img
+                src={area.image}
+                alt={area.title}
+                style={{
+                  width: "700px",
+                  height: "auto",
+                  objectFit: "contain",
+                  marginTop: "1rem",
+                  transform: "scale(2)",
+                }}
+              />
             </div>
-            <div>
-              <p className="text-[#E8572A] text-sm tracking-[0.25em] uppercase font-sans mb-3">
-                Expertise & Engagement
+
+            {/* Content panel */}
+            <div style={{ order: i % 2 === 0 ? 1 : 0, padding: "3rem" }}>
+              <h2
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "2rem",
+                  fontWeight: 500,
+                  color: "#1A1916",
+                  letterSpacing: "-0.02em",
+                  marginBottom: "1rem",
+                  lineHeight: 1.2,
+                }}
+              >
+                {area.title}
+              </h2>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.9375rem",
+                  color: "#6B6560",
+                  lineHeight: 1.75,
+                  marginBottom: "2rem",
+                  fontWeight: 300,
+                }}
+              >
+                {area.description}
               </p>
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-none mb-4"
-                style={{ letterSpacing: '-0.02em' }}>
-                Domaines<br />
-                <span className="text-[#7CB97E]">d'action</span>
-              </h1>
-              <p className="text-lg text-gray-400 max-w-xl font-sans mt-6 leading-relaxed">
-                Trois axes interdépendants pour une lutte cohérente — où chaque combat renforce les autres.
-              </p>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column" as const,
+                  gap: "0",
+                }}
+              >
+                {area.examples.map((ex, j) => (
+                  <div
+                    key={j}
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: "1rem",
+                      padding: "0.75rem 0",
+                      borderTop: "1px solid #EDE9E2",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.7rem",
+                        color: "#C4A882",
+                        flexShrink: 0,
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      {String(j + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.875rem",
+                        color: "#6B6560",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {ex}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+        ))}
+
+        {/* CTA */}
+        <div
+          style={{
+            marginTop: "4rem",
+            paddingTop: "3rem",
+            borderTop: "1px solid #E2DDD4",
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <a
+            href="/campaigns"
+            style={{
+              padding: "13px 28px",
+              background: "#1A1916",
+              color: "#F7F4EF",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.875rem",
+              fontWeight: 500,
+            }}
+          >
+            Voir les campagnes →
+          </a>
+          <a
+            href="/contact"
+            style={{
+              padding: "13px 28px",
+              border: "1px solid #C4A882",
+              color: "#1A1916",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.875rem",
+            }}
+          >
+            Collaborer
+          </a>
         </div>
       </div>
 
-      {/* ─── AREA CARDS ─── */}
-      <main className="container mx-auto px-6 md:px-12 max-w-6xl py-20">
-
-        <div className="space-y-8">
-          {actionAreas.map((area, index) => (
-            <div
-              key={area.id}
-              ref={(el) => { itemRefs.current[index] = el; }}
-              data-index={index}
-              className="group relative rounded-3xl overflow-hidden transition-all duration-700"
-              style={{
-                opacity: visibleItems.has(index) ? 1 : 0,
-                transform: visibleItems.has(index) ? 'translateY(0)' : 'translateY(40px)',
-                transitionDelay: `${index * 120}ms`,
-                background: bgColors[index % bgColors.length],
-                border: `1px solid ${accentColors[index % accentColors.length]}22`,
-              }}
-            >
-              {/* Big number watermark */}
-              <div className="absolute top-6 right-8 text-[120px] font-bold leading-none select-none pointer-events-none"
-                style={{ color: `${accentColors[index % accentColors.length]}12` }}>
-                {String(index + 1).padStart(2, '0')}
-              </div>
-
-              <div className="relative p-8 md:p-12">
-                <div className="flex flex-col md:flex-row gap-10">
-
-                  {/* Left column */}
-                  <div className="md:w-2/5">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
-                        style={{ background: `${accentColors[index % accentColors.length]}18` }}>
-                        {area.icon}
-                      </div>
-                      <div className="w-8 h-[2px]" style={{ background: accentColors[index % accentColors.length] }} />
-                      <span className="text-xs tracking-[0.2em] uppercase font-sans font-semibold"
-                        style={{ color: accentColors[index % accentColors.length] }}>
-                        Axe {index + 1}
-                      </span>
-                    </div>
-
-                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                      {area.title}
-                    </h3>
-
-                    <p className="text-gray-600 leading-relaxed font-sans text-base">
-                      {area.description}
-                    </p>
-
-                    <a href="/contact"
-                      className="inline-flex items-center gap-3 mt-8 px-6 py-3 rounded-full text-white text-sm font-sans font-semibold transition-all duration-300 hover:gap-5 hover:shadow-lg"
-                      style={{ background: accentColors[index % accentColors.length] }}>
-                      Collaborer
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </a>
-                  </div>
-
-                  {/* Divider */}
-                  <div className="hidden md:block w-[1px] self-stretch"
-                    style={{ background: `${accentColors[index % accentColors.length]}25` }} />
-
-                  {/* Right column – examples */}
-                  <div className="md:w-3/5">
-                    <h4 className="text-xs tracking-[0.2em] uppercase font-sans font-semibold text-gray-400 mb-6">
-                      Exemples concrets
-                    </h4>
-                    <ul className="space-y-4">
-                      {area.examples.map((example, i) => (
-                        <li key={i} className="flex items-start gap-4 group/item">
-                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform duration-300 group-hover/item:scale-110"
-                            style={{ background: `${accentColors[index % accentColors.length]}18` }}>
-                            <div className="w-2 h-2 rounded-full"
-                              style={{ background: accentColors[index % accentColors.length] }} />
-                          </div>
-                          <span className="text-gray-700 font-sans leading-relaxed">{example}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ─── APPROCHE GLOBALE ─── */}
-        <div className="mt-24 relative rounded-3xl overflow-hidden bg-[#0D1F0D] p-10 md:p-16">
-          {/* Decorative dots pattern */}
-          <div className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '30px 30px'
-            }}
-          />
-          <div className="absolute top-0 left-0 w-32 h-32 rounded-br-full opacity-20"
-            style={{ background: '#E8572A' }} />
-
-          <div className="relative">
-            <p className="text-[#E8572A] text-xs tracking-[0.3em] uppercase font-sans mb-4">Vision stratégique</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-12" style={{ letterSpacing: '-0.02em' }}>
-              Mon approche globale
-            </h2>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: '⟳',
-                  title: 'Intersectionnalité',
-                  text: 'Chaque lutte est connectée. La justice climatique ne peut exister sans justice sociale, raciale et économique.',
-                  color: '#E8572A'
-                },
-                {
-                  icon: '◈',
-                  title: 'Action multi-niveaux',
-                  text: 'Agir simultanément au niveau local, national et international pour un impact maximal et durable.',
-                  color: '#7CB97E'
-                },
-                {
-                  icon: '◎',
-                  title: 'Pédagogie active',
-                  text: 'Former et outiller les nouvelles générations pour pérenniser les luttes et les victoires collectives.',
-                  color: '#64B5F6'
-                }
-              ].map((item, i) => (
-                <div key={i} className="relative">
-                  <div className="text-3xl mb-4" style={{ color: item.color }}>{item.icon}</div>
-                  <div className="w-8 h-[2px] mb-4" style={{ background: item.color }} />
-                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                  <p className="text-gray-400 font-sans leading-relaxed text-sm">{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </main>
+      <Footer />
     </div>
-  );
-};
+  </>
+);
 
-export default Actions;
+export default ActionAreas;

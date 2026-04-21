@@ -11,12 +11,10 @@ const KeyFigures: React.FC = () => {
 
   return (
     <section className="relative bg-[#F1F8E9] py-16 md:py-24">
-      
       {/* Accent décoratif */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] rounded-full opacity-70 md:w-96  " />
 
       <div className="container mx-auto px-6 md:px-12 max-w-6xl">
-        
         <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1B5E20] mb-12 md:mb-16">
           Chiffres clés
         </h2>
@@ -30,10 +28,12 @@ const KeyFigures: React.FC = () => {
                 key={index}
                 className="group bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-[#E8F5E9] flex flex-col items-center text-center"
               >
-                
                 {/* Icône */}
                 <div className="mb-6 p-4 bg-[#E8F5E9] rounded-full group-hover:bg-[#C8E6C9] transition-colors duration-300">
-                  <Icon className="w-10 h-10 text-[#1B5E20]" strokeWidth={1.8} />
+                  <Icon
+                    className="w-10 h-10 text-[#1B5E20]"
+                    strokeWidth={1.8}
+                  />
                 </div>
 
                 {/* Nombre */}

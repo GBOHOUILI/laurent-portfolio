@@ -17,7 +17,6 @@ export const CampaignCard = ({
 }: CampaignCardProps) => {
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-2">
-      
       <div
         className="h-48 bg-cover bg-center"
         style={{ backgroundImage: `url('${image}')` }}
@@ -28,13 +27,9 @@ export const CampaignCard = ({
           {status}
         </span>
 
-        <h3 className="text-xl font-bold text-[#1B5E20] mb-3">
-          {title}
-        </h3>
+        <h3 className="text-xl font-bold text-[#1B5E20] mb-3">{title}</h3>
 
-        <p className="text-gray-600 mb-4">
-          {description}
-        </p>
+        <p className="text-gray-600 mb-4">{description}</p>
 
         <a
           href={link}
